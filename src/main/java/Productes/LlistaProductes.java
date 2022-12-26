@@ -1,5 +1,5 @@
 package Productes;
-
+import ControlFitxers.Data;
 public class LlistaProductes {
 public Productes[] llista;
 public int nElem;
