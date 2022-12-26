@@ -108,9 +108,5 @@ public abstract class Productes {
      */
     public abstract String toString();
 
-    /**
-     * Método que cambia la fecha de descativacion
-     * @param data2 fecha de desactivacion
-     */
 
 }
