@@ -1,5 +1,4 @@
 package Productes;
-import appUsr.RegUser;
 import ControlFitxers.Data;
 
 public abstract class Productes {
@@ -8,8 +7,8 @@ public abstract class Productes {
     private String descrip;   //descripcion del producto
 
     private int code;        //codigo del producto
-    private boolean estat; //estado del producto: activado o desactivado
-    private int intercanvis; //numero de intercambios del producto
+    private boolean estat;
+    private int intercanvis;
 
     public Productes(int code, String descrip, Data dataOf, Data dataInt, boolean estat, int intercanvis) {
         this.code = code;
@@ -109,5 +108,6 @@ public abstract class Productes {
      * Método que muestra el producto
      */
     public abstract String toString();
-}
 
+
+}

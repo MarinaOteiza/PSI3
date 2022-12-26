@@ -1,6 +1,5 @@
 package Productes;
 import ControlFitxers.Data;
-
 public class Bienes extends Productes{
     private Data dataOf;
     private Data dataInt;
@@ -10,8 +9,8 @@ public class Bienes extends Productes{
     private double alto;
     private double largo;
     private double peso;
-    private boolean estat; //estado del producto:activado o desactivado
-    private int intercanvis; //numero de intercambios del producto
+    private int intercanvis;
+    private boolean estat;
 
     public Bienes (int code,String descrip,Data dataOf, Data dataInt, boolean estat, int intercanvis, double ancho, double alto,double largo,double peso){
         super(code,descrip, dataOf, dataInt,estat,intercanvis);

@@ -1,13 +1,14 @@
 package Productes;
 import ControlFitxers.Data;
-public class LlistaProductes {
-public Productes[] llista;
-public int nElem;
 
-public LlistaProductes(int elem){
-    nElem=0;
-    llista= new Productes[elem];
-}
+public class LlistaProductes {
+    public Productes[] llista;
+    public int nElem;
+
+    public LlistaProductes(int elem){
+        nElem=0;
+        llista= new Productes[elem];
+    }
     /**
      * Método que permite mostrar por pantalla LlistaProductes
      *
@@ -70,8 +71,8 @@ public LlistaProductes(int elem){
         for (int n=0; n < nElem; n++) {
             if (llista[n].getCode( )==code){
                 llista[n].desactivaProducte();
-            if(llista[n] instanceof Serveis)
-                ((Serveis) llista[n]).setDataDes(data2);
+                if(llista[n] instanceof Serveis)
+                    ((Serveis) llista[n]).setDataDes(data2);
             }
         }
         return trobat;

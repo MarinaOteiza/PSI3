@@ -1,13 +1,13 @@
 package Productes;
 import ControlFitxers.Data;
 public class Serveis extends Productes{
-    private Data dataOf; //fecha de la oferta
-    private Data dataInt; //fecha del intercambio
-    private String descrip; //descripcion del producto
-    private boolean estat; //estado del producto:activado o desactivado
-    private int intercanvis; //numero de intercambios del producto
-    private Data dataDes; //fecha de desactivacion del servicio
-    private int code; //codigo del producto
+    private Data dataOf;
+    private Data dataInt;
+    private String descrip;
+    private boolean estat;
+    private int intercanvis;
+    private Data dataDes;
+    private int code;
 
     public Serveis(int code, String descrip, Data dataOf, Data dataInt, boolean estat, int intercanvis, Data dataDes){
         super(code,descrip, dataOf, dataInt,estat,intercanvis);
