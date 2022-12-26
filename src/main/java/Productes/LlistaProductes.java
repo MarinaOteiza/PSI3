@@ -1,7 +1,7 @@
 package Productes;
 import ControlFitxers.Data;
 
-public class LlistaProductes {
+public class LlistaProductes  {
     public Productes[] llista;
     public int nElem;
 
@@ -123,4 +123,22 @@ public class LlistaProductes {
             else i++; //Solo si no encontramos el producto
         }
     }
+
+    public int getnumProd() {
+        return nElem;
+    }
+    /**
+     *@;SoniaAlfonso
+     * torna nElements LLista
+     */
+    public Productes getList(int i) {
+        return llista[i];
+    }
+
+    /**
+     * * @;SoniaAlfonso
+     * torna productes de la llista en la posicio i
+     */
+
+
 }

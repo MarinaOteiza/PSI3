@@ -19,7 +19,13 @@ public class Bienes extends Productes{
         this.largo=largo;
         this.peso=peso;
     }
+    public Bienes(int code, String descrip, boolean estat, Data dataOf, Data dataInt, int intercanvis){
+        super(code,descrip, dataOf,dataInt, estat, intercanvis);
 
+    }
+    public boolean getEstat(){
+        return estat;
+    }
     public double getAncho() {
         return ancho;
     }
@@ -70,5 +76,15 @@ public class Bienes extends Productes{
     public String toString() {
         return "Servei [dataOf="+dataOf+",dataInt="+dataInt+ ", codi=" + code+ ", activacio=" +estat+ ", intercanvis=" +intercanvis;
     }
+
+    public void afegirDataIntercanvi(Data inter) {
+      dataInt=inter.copia();
+
+    }
+    /** @SoniaAlfonso
+     * Procediment per a afegir data de Intercanvi;
+     */
+
+
 
 }

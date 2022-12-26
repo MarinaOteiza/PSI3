@@ -24,6 +24,19 @@ public class User implements Serializable{
      *
      *	@return aux copia de la información del registro de un usuario
      */
+
+    public User(String alias, String correo, int cod,  int numProductes, int numIntercambis){
+        this.alias=alias;
+        this.correo=correo;
+        codiPost=cod;
+        nProd=numProductes;
+        nInter=numIntercambis;
+        prod = new String[100]; //POR AHORA PONEMOS UN TAMAÑO AL AZAR
+        intercamb = new String[100];
+    }
+
+    /* Sonia Alfonso: otro constructor para tener más información en el fichero binario*/
+
     public User copia() {
         User aux=new User(alias, correo, codiPost); //creamos el usuario
         for(int i=0;i<nProd;i++) {
