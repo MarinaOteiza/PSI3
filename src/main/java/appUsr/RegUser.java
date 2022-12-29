@@ -156,4 +156,163 @@ public class RegUser{
     private static void verIntercamb(LlistaUser llista) {
         System.out.print(llista.muestraIntercamb(pedirAlias(llista)));
     }
+    private static void sumaIntercamb(LlistaUser llista) {
+        String objeto;
+        System.out.println("¿Cual es el usuario con quien quieres intercambiar y su producto?");
+        String nombreUsu = pedirAlias(llista);
+        Productos objetoUsu = pedirProducto(llista, nombreUsu);
+        String c = pedirCodigo();
+        System.out.println("Introduce tu informacion:");
+        String b = pedirAlias(llista);
+        objeto = pedirObjeto();
+        if (!objetoUsu.isProductTienePeticion()) {        //Si no hi ha cap peticio anterior creem una llista nova
+            if (objetoUsu.getTipus_product().equals("Fisico")) {
+                LlistaPeticionesFisic LlistaPF = new LlistaPeticionesFisic(c, nombreUsu, objetoUsu, 100);
+                PeticioFisic petF = new PeticioFisic(b, objeto);
+                LlistaPF.addF(petF);
+                if (llista.nuevoIntercambio(b, LlistaPF)) System.out.println("Producto añadido correctamente");
+            } else {
+                LlistaPeticionesServei LlistaPS = new LlistaPeticionesServei(c, nombreUsu, objetoUsu, 100);
+                PeticionesServei petS = new PeticionesServei(b, objeto);
+                LlistaPS.addS(petS);
+                if (llista.nuevoIntercambio(b, LlistaPS)) System.out.println("Producto añadido correctamente");
+            }
+            objetoUsu.setProductTienePeticion(true);
+        } else {                                                  // Com hi ha ja peticions pendents, introduim la nova peticio a la llista que li pertoca
+            if (objetoUsu.getTipus_product().equals("Fisico")) {
+                PeticioFisic petF = new PeticioFisic(b, objeto);
+                User[] Llista = llista.getLlista();
+                int pos = llista.posUsuario(nombreUsu);
+                LlistaPeticiones LlistaP = Llista[pos].getIntercamb();
+                int i = LlistaP.trobatPeticion(objetoUsu);
+                Peticiones pet = LlistaP.getLlistaPos(i);
+                ((LlistaPeticionesFisic) pet).addF(petF);
+            } else {
+                PeticionesServei petF = new PeticionesServei(b, objeto);
+                User[] Llista = llista.getLlista();
+                int pos = llista.posUsuario(nombreUsu);
+                LlistaPeticiones LlistaP = Llista[pos].getIntercamb();
+                int i = LlistaP.trobatPeticion(objetoUsu);
+                Peticiones pet = LlistaP.getLlistaPos(i);
+                ((LlistaPeticionesServei) pet).addS(petF);
+            }
+        }
+    }
+
+    private static void menosIntercamb(LlistaUser llista) {
+        String a = pedirAlias(llista);
+        Productos i = pedirProducto(llista, a);
+        int pos = llista.getPosicionPeticionLlista(a, i);
+        Peticiones p = llista.getPeticionLlista(a, pos);
+        if (llista.quitaIntercambio(a, p) == 0) System.out.println("No se ha encontrado el intercambio");
+        if (llista.quitaIntercambio(a, p) == 1) System.out.println("Intercambio quitado correctamente");
+    }
+
+    private static Productos pedirProducto(LlistaUser llista, String usuario) {
+        String a, t;
+        int pos = llista.posUsuario(usuario);
+        do {
+            System.out.println("Introduce el producto: ");
+            a = teclat.nextLine();
+            if (!llista.productoUsuarioRegistrado(a)) System.out.println("Producto no encontrado, vuelve "
+                    + "a intentarlo\n");
+        } while (!llista.productoUsuarioRegistrado(a));
+        User[] llista2 = llista.getLlista();
+        t = llista2[pos].getTipusProducte(a);
+        Productos product = new Productos(a, t);
+        return product;
+    }
+
+    private static String pedirCodigo(){
+        String c;
+        System.out.println("¿Cual es el codigo de la peticion? ");
+        c = teclat.nextLine();
+        return c;
+    }
+
+    private static String pedirObjeto(){
+        String objeto;
+        System.out.println("¿Que objeto o servicio quieres intercambiar? ");
+        objeto= teclat.nextLine();
+        return objeto;
+    }
+
+    private static void ContestarUsuario(LlistaUser llista) {
+        Scanner teclat = new Scanner(System.in);
+        String a = pedirAlias(llista);
+        int pos = llista.posUsuario(a);
+        User[] Llista = llista.getLlista();
+        LlistaPeticiones LlistaP = Llista[pos].getIntercamb();
+        System.out.println("¿Que producto quieres contestar a una peticion?");
+        Productos prod = pedirProducto(llista, a);
+        int i = LlistaP.trobatPeticion(prod), j = 0;
+        boolean contestatA = false;
+        Peticiones[] llistatP = LlistaP.getLlistaPeticions();
+        if (prod.getTipus_product().equals("Fisic")) {
+            PeticioFisic[] petF = ((LlistaPeticionesFisic) llistatP[i]).getLlistaF();
+            while (!contestatA && j < petF.length) {
+                System.out.println("¿Te gusta el intercambio: " + petF[j].getPeticio_interc() + " ? (Si o No)");
+                String respuesta = teclat.nextLine();
+                if (respuesta.equals("Si")) {
+                    contestatA = true;
+                    System.out.println("¿Cual es la puntuacion del intercambio a tu parecer?");
+                    int nota = teclat.nextInt();
+                    petF[j].valoracioFU(nota);
+                }
+                if (((LlistaPeticionesFisic) llistatP[i]).contestarF(petF[j], contestatA))
+                    System.out.println("La respuesta ha sido introducida con exito");
+                else System.out.println("La respuesta no ha sido introducida con exito");
+                j++;
+            }
+        } else {
+            PeticionesServei[] petS = ((LlistaPeticionesServei) llistatP[i]).getLlistaS();
+            while (!contestatA && j < petS.length) {
+                System.out.println("¿Te gusta el intercambio: " + petS[j].getPeticio_intercS() + " ? (Si o No)");
+                String respuesta = teclat.nextLine();
+                if (respuesta.equals("Si")) {
+                    contestatA = true;
+                    System.out.println("¿Cual es la puntuacion del intercambio a tu parecer?");
+                    int nota = teclat.nextInt();
+                    petS[j].valoracioFU(nota);
+                }
+                ((LlistaPeticionesServei) llistatP[i]).contestarS(petS[j], contestatA);
+                j++;
+            }
+        }
+    }
+
+    private static void ContestarCliente(LlistaUser llista){
+        Scanner teclat = new Scanner(System.in);
+        String a = pedirAlias(llista);
+        System.out.println("¿Cual es el usuario que enviaste una propuesta?");
+        String u = pedirAlias(llista);
+        int pos = llista.posUsuario(u);
+        User[] Llista = llista.getLlista();
+        LlistaPeticiones LlistaP = Llista[pos].getIntercamb();
+        System.out.println("¿Que producto solicitaste una peticion?");
+        Productos prod = pedirProducto(llista, u);
+        int i = LlistaP.trobatPeticion(prod);
+        Peticiones[] llistatP = LlistaP.getLlistaPeticions();
+        if (prod.getTipus_product().equals("Fisic")) {
+            PeticioFisic[] petF = ((LlistaPeticionesFisic) llistatP[i]).getLlistaF();
+            int posC=((LlistaPeticionesFisic) llistatP[i]).buscarPeticio(a);
+            if(posC>-1){
+                if(petF[posC].getPeticioAoD()) {
+                    System.out.println("¿Cual es tu valoracion del intercambio?");
+                    int nota= teclat.nextInt();
+                    petF[posC].valoracioFC(nota);
+                }
+            }
+        }else{
+            PeticionesServei[] petS = ((LlistaPeticionesServei) llistatP[i]).getLlistaS();
+            int posC=((LlistaPeticionesServei) llistatP[i]).buscarPeticio(a);
+            if(posC>-1){
+                if(petS[posC].getPeticioAoD()) {
+                    System.out.println("¿Cual es tu valoracion del intercambio?");
+                    int nota= teclat.nextInt();
+                    petS[posC].valoracioFC(nota);
+                }
+            }
+        }
+    }
 }
