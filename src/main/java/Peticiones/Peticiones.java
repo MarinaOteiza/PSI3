@@ -1,20 +1,20 @@
 package Peticiones;
 
-import dataUsr.Productos;
+import Productes.*;
 
 //ÀITOR OLIVARES PERUCHO
 public class Peticiones {
     protected String codi;
     protected String usuari;
-    protected Productos producte;
+    protected Productes producte;
 
-    public Peticiones(String codi, String usuari, Productos producte) {
+    public Peticiones(String codi, String usuari, Productes producte) {
         this.codi = codi;
         this.usuari = usuari;
         this.producte = producte;
     }
 
-    public Productos getProducte() {return producte;}
+    public Productes getProducte() {return producte;}
 
     public Peticiones copia(){
         Peticiones p= new Peticiones(this.codi, this.usuari, this.producte);

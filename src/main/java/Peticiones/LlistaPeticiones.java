@@ -1,6 +1,6 @@
 package Peticiones;
+import Productes.*;
 
-import dataUsr.Productos;
 
 //ÀITOR OLIVARES PERUCHO
 
@@ -56,8 +56,17 @@ public class LlistaPeticiones {
         return LlistaP;
     }
 
-    public void copia(LlistaPeticiones llist, int i){
-        this.LlistaP[i]= llist.LlistaP[i];
+    public Peticiones copia(LlistaPeticiones llist, int i){
+        return this.LlistaP[i]= llist.LlistaP[i];
+    }
+
+    public LlistaPeticiones copiaL(){
+        LlistaPeticiones llista= new LlistaPeticiones(100);
+        for(int i=0; i<this.numllist; i++){
+            llista.LlistaP[i]=this.LlistaP[i];
+        }
+        llista.numllist=this.numllist;
+        return llista;
     }
 
     public int trobatPeticion(Peticiones p){
@@ -72,11 +81,11 @@ public class LlistaPeticiones {
         return -1;
     }
 
-    public int trobatPeticion(Productos p){
+    public int trobatPeticion(Productes p){
         boolean trobat=false;
         int i=0;
         while (!trobat && i<numllist){
-            if(LlistaP[i].getProducte().equals(p.getProduct())){
+            if(LlistaP[i].getProducte().equals(p.getDescrip())){
                 return i;
             }
             i++;

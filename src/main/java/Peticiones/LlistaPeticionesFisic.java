@@ -1,13 +1,13 @@
 package Peticiones;
 
-import dataUsr.Productos;
+import Productes.*;
 
 //ÀITOR OLIVARES PERUCHO
 public class LlistaPeticionesFisic extends Peticiones {
     private PeticioFisic[] LlistaF;
     private int numllist;
 
-    public LlistaPeticionesFisic(String codi, String usuari, Productos producte, int num){
+    public LlistaPeticionesFisic(String codi, String usuari, Productes producte, int num){
         super(codi,usuari,producte);
         LlistaF= new PeticioFisic[num];
         numllist=0;

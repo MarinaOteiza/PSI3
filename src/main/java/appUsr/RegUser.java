@@ -2,6 +2,8 @@ package appUsr;
 
 import dataUsr.*;
 import java.util.Scanner;
+import Peticiones.*;
+import Productes.*;
 
 /**
  *
@@ -111,14 +113,6 @@ public class RegUser{
         if(llista.nuevoProducto(a, p)) System.out.println("Producto añadido correctamente");
         else System.out.println("El producto no se ha podido añadir");
     }
-    private static void sumaIntercamb(LlistaUser llista) {
-        String i;
-        String a=pedirAlias(llista);
-        System.out.println("Que intercambio quieres añadir? ");
-        i=teclat.nextLine();
-        if(llista.nuevoIntercambio(a, i)) System.out.println("Producto añadido correctamente");
-        else System.out.println("El intercambio no se ha podido añadir");
-    }
     private static void menosProd(LlistaUser llista) {
         String p;
         String a=pedirAlias(llista);
@@ -127,15 +121,6 @@ public class RegUser{
         if(llista.quitaProducto(a, p)==0) System.out.println("No se ha encontrado el producto");
         if(llista.quitaProducto(a, p)==1) System.out.println("Producto quitado correctamente");
     }
-    private static void menosIntercamb(LlistaUser llista) {
-        String i;
-        String a=pedirAlias(llista);
-        System.out.println("Que intercambio quieres quitar? ");
-        i=teclat.nextLine();
-        if(llista.quitaIntercambio(a, i)==0) System.out.println("No se ha encontrado el intercambio");
-        if(llista.quitaIntercambio(a, i)==1) System.out.println("Intercambio quitado correctamente");
-    }
-
 
     private static String pedirAlias(LlistaUser llista) {
         String a;
@@ -160,7 +145,7 @@ public class RegUser{
         String objeto;
         System.out.println("¿Cual es el usuario con quien quieres intercambiar y su producto?");
         String nombreUsu = pedirAlias(llista);
-        Productos objetoUsu = pedirProducto(llista, nombreUsu);
+        Productes objetoUsu = pedirProducto(llista, nombreUsu);
         String c = pedirCodigo();
         System.out.println("Introduce tu informacion:");
         String b = pedirAlias(llista);
@@ -201,14 +186,14 @@ public class RegUser{
 
     private static void menosIntercamb(LlistaUser llista) {
         String a = pedirAlias(llista);
-        Productos i = pedirProducto(llista, a);
+        Productes i = pedirProducto(llista, a);
         int pos = llista.getPosicionPeticionLlista(a, i);
         Peticiones p = llista.getPeticionLlista(a, pos);
         if (llista.quitaIntercambio(a, p) == 0) System.out.println("No se ha encontrado el intercambio");
         if (llista.quitaIntercambio(a, p) == 1) System.out.println("Intercambio quitado correctamente");
     }
 
-    private static Productos pedirProducto(LlistaUser llista, String usuario) {
+    private static Productes pedirProducto(LlistaUser llista, String usuario) {
         String a, t;
         int pos = llista.posUsuario(usuario);
         do {
@@ -219,7 +204,7 @@ public class RegUser{
         } while (!llista.productoUsuarioRegistrado(a));
         User[] llista2 = llista.getLlista();
         t = llista2[pos].getTipusProducte(a);
-        Productos product = new Productos(a, t);
+        Productes product = new Productes(a, t);
         return product;
     }
 
@@ -244,7 +229,7 @@ public class RegUser{
         User[] Llista = llista.getLlista();
         LlistaPeticiones LlistaP = Llista[pos].getIntercamb();
         System.out.println("¿Que producto quieres contestar a una peticion?");
-        Productos prod = pedirProducto(llista, a);
+        Productes prod = pedirProducto(llista, a);
         int i = LlistaP.trobatPeticion(prod), j = 0;
         boolean contestatA = false;
         Peticiones[] llistatP = LlistaP.getLlistaPeticions();
@@ -290,7 +275,7 @@ public class RegUser{
         User[] Llista = llista.getLlista();
         LlistaPeticiones LlistaP = Llista[pos].getIntercamb();
         System.out.println("¿Que producto solicitaste una peticion?");
-        Productos prod = pedirProducto(llista, u);
+        Productes prod = pedirProducto(llista, u);
         int i = LlistaP.trobatPeticion(prod);
         Peticiones[] llistatP = LlistaP.getLlistaPeticions();
         if (prod.getTipus_product().equals("Fisic")) {

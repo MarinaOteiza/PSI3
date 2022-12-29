@@ -1,4 +1,8 @@
 package dataUsr;
+
+import Peticiones.Peticiones;
+import Productes.Productes;
+
 /**
  *
  * @author Marina Oteiza
@@ -86,7 +90,7 @@ public class LlistaUser{
      * @param inter intercambio que se quiere quitar
      * @return correcto -1:no se ha encontrado el alias; 0:producto no encontrado; 1:producto encontrado
      */
-    public int quitaIntercambio(String alias, String inter) {
+    public int quitaIntercambio(String alias, Peticiones inter) {
         int correcto=-1, pos;
         if(this.usuarioRegistrado(alias)) { //Nos aseguramos de que el usuario de dicho alias exista previamente
             pos= this.posUsuario(alias);    //Si existe, calculamos la posición de la llista en la que se encuentra (pos)
@@ -104,7 +108,7 @@ public class LlistaUser{
      * @param p producto que se quiere añadir
      * @return correcto true si se ha podido añadir, false si no
      */
-    public boolean nuevoProducto(String alias, String p) {
+    public boolean nuevoProducto(String alias, Productes p) {
         boolean correcto=false;
         int pos;
         if(this.usuarioRegistrado(alias)) {
@@ -121,7 +125,7 @@ public class LlistaUser{
      * @param inter intercambio que se quiere añadir
      * @return correcto true si se ha podido añadir, false si no
      */
-    public boolean nuevoIntercambio(String alias, String inter) {
+    public boolean nuevoIntercambio(String alias, Peticiones inter) {
         boolean correcto=false;
         int pos;
         if(this.usuarioRegistrado(alias)) {
@@ -173,12 +177,20 @@ public class LlistaUser{
      * @param alias para saber qué usuario tenemos que buscar
      * @return pos posición del usuario en llista[]
      */
-    private int posUsuario(String alias) {
+    public int posUsuario(String alias) {
         int pos=0;
         for(int i=0;i<nElem;i++) {
             if(llista[i].getAlias().equals(alias)) pos=i;
         }
         return pos;
+    }
+
+    public boolean productoUsuarioRegistrado(String objeto){
+        boolean trobat=false;
+        for(int i=0;i<nElem;i++) {
+            if(llista[i].prodTrobat(objeto)>-1) trobat=true;
+        }
+        return(trobat);
     }
 
     /**Buscamos la posición en la que se encuentra el usuario en llista[]
@@ -194,6 +206,24 @@ public class LlistaUser{
     }
 
     //SETTERS Y GETTERS
+
+    public int getPosicionPeticionLlista(String alias, Productes p){
+        int pos=0;
+        if(this.usuarioRegistrado(alias)) {
+            pos= this.posUsuario(alias);
+            return llista[pos].intercamb.trobatPeticion(p);
+        }
+        return 0;
+    }
+
+    public Peticiones getPeticionLlista(String alias, int i){
+        int pos=0;
+        if(this.usuarioRegistrado(alias)) {
+            pos= this.posUsuario(alias);
+            return llista[pos].intercamb.getLlistaPos(i);
+        }
+        return null;
+    }
     public User[] getLlista() {
         return llista;
     }
