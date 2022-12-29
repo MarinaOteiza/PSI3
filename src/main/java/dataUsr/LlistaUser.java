@@ -1,7 +1,7 @@
 package dataUsr;
 
-import Peticiones.Peticiones;
-import Productes.Productes;
+import Peticiones.*;
+import Productes.*;
 
 /**
  *
@@ -11,10 +11,11 @@ import Productes.Productes;
 public class LlistaUser{
     private User[] llista;
     private int nElem;
-
+    private Codigo codi;
     public LlistaUser(int elem){
         nElem = 0;
         llista = new User[elem];
+        codi = new Codigo(1000);
     }
 
     /**Añadimos un nuevo usuario a la lista
@@ -242,5 +243,7 @@ public class LlistaUser{
     public void setnElem(int nElem) {
         this.nElem = nElem;
     }
+
+    public Codigo getCodigo(){return codi;}
 
 }

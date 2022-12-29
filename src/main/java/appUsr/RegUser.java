@@ -194,8 +194,8 @@ public class RegUser{
         System.out.println("¿Cual es el usuario con quien quieres intercambiar y su producto?");
         String nombreUsu = pedirAlias(llista);
         Productes objetoUsu = pedirProducto(llista, nombreUsu);
-        String c = pedirCodigo();
-        System.out.println("Introduce tu informacion:");
+        String c = llista.getCodigo().cadenaAleatoria();
+        System.out.println("\n-Introduce tu informacion-\n");
         String b = pedirAlias(llista);
         objeto = pedirObjeto();
         if (!objetoUsu.isProductTienePeticion()) {        //Si no hi ha cap peticio anterior creem una llista nova
@@ -203,12 +203,12 @@ public class RegUser{
                 LlistaPeticionesFisic LlistaPF = new LlistaPeticionesFisic(c, nombreUsu, objetoUsu, 100);
                 PeticioFisic petF = new PeticioFisic(b, objeto);
                 LlistaPF.addF(petF);
-                if (llista.nuevoIntercambio(b, LlistaPF)) System.out.println("Producto añadido correctamente");
+                if (llista.nuevoIntercambio(nombreUsu, LlistaPF)) System.out.println("Producto añadido correctamente");
             } else {
                 LlistaPeticionesServei LlistaPS = new LlistaPeticionesServei(c, nombreUsu, objetoUsu, 100);
                 PeticionesServei petS = new PeticionesServei(b, objeto);
                 LlistaPS.addS(petS);
-                if (llista.nuevoIntercambio(b, LlistaPS)) System.out.println("Producto añadido correctamente");
+                if (llista.nuevoIntercambio(nombreUsu, LlistaPS)) System.out.println("Producto añadido correctamente");
             }
             objetoUsu.setProductTienePeticion(true);
         } else {                                                  // Com hi ha ja peticions pendents, introduim la nova peticio a la llista que li pertoca
@@ -233,19 +233,16 @@ public class RegUser{
     }
 
     private static void menosIntercamb(LlistaUser llista) {
+        System.out.println("Introduce la informacion del usuario que le quieres quitar la peticion.");
         String a = pedirAlias(llista);
-        Productes i = pedirProducto(llista, a);
-        int pos = llista.getPosicionPeticionLlista(a, i);
+        int pos;
+        do {
+            Productes i = pedirProducto(llista, a);
+            pos = llista.getPosicionPeticionLlista(a, i);
+        }while(pos==-1);
         Peticiones p = llista.getPeticionLlista(a, pos);
         if (llista.quitaIntercambio(a, p) == 0) System.out.println("No se ha encontrado el intercambio");
         if (llista.quitaIntercambio(a, p) == 1) System.out.println("Intercambio quitado correctamente");
-    }
-
-    private static String pedirCodigo(){
-        String c;
-        System.out.println("¿Cual es el codigo de la peticion? ");
-        c = teclat.nextLine();
-        return c;
     }
 
     private static String pedirObjeto(){
