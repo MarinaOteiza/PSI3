@@ -55,6 +55,12 @@ public class RegUser{
                     menosIntercamb(llista);
                     break;
                 case 9:
+                    ContestarUsuario(llista);
+                    break;
+                case 10:
+                    ContestarCliente(llista);
+                    break;
+                case 11:
                     System.out.println("Has salido");
                     exit = true;
                     break;
@@ -70,10 +76,12 @@ public class RegUser{
         System.out.println("2-Ver productos ");
         System.out.println("2-Ver intercambios ");
         System.out.println("5-Sumar producto ");
-        System.out.println("6-Sumar intercambio");
+        System.out.println("6-Proponer intercambio");
         System.out.println("7-Quitar producto ");
         System.out.println("8-Quitar intercambio");
-        System.out.println("9-Salir ");
+        System.out.println("9-Responder intercambios");
+        System.out.println("10-Valoración del intercambio");
+        System.out.println("11-Salir ");
         System.out.print("\n\t\t\tIndica opcion:\n");
     }
 
@@ -106,12 +114,52 @@ public class RegUser{
         if(llista.usuarioRegistrado(alias))System.out.println("Usuario guardado correctamente");
     }
     private static void sumaProd(LlistaUser llista) {
-        String p;
+        String nombre, descripcion;
+        //TODO INTRODUCIR LA DATA DEL DÍA EN EL QUE SE PONE EL PRODUCTO!!!
+        int tipus=10;
         String a=pedirAlias(llista);
         System.out.println("Que producto quieres añadir? ");
         p=teclat.nextLine();
         if(llista.nuevoProducto(a, p)) System.out.println("Producto añadido correctamente");
         else System.out.println("El producto no se ha podido añadir");
+    }
+
+    private static void sumaFisic(LlistaUser llista, String nom, String descripcion) {
+        int amplada, alcada, fons, pes;
+        //TODO: ponemos límites de peso o tamaño????????????Además tiene si se ha intercambiado o no y data del intercambio en ese caso pero NO cuando se crea
+        //TODO: lanzar excepciones con valores negativos y del tipo String
+        System.out.println("Introduce la amplada: ");
+        amplada = Integer.parseInt(teclat.nextLine());
+        System.out.println("Introduce la alcada: ");
+        alcada = Integer.parseInt(teclat.nextLine());
+        System.out.println("Introduce el fons: ");
+        fons = Integer.parseInt(teclat.nextLine());
+        System.out.println("Introduce el pes: ");
+        pes = Integer.parseInt(teclat.nextLine());
+        //TODO: comprobar que se haya guardado el producto correctamente y avisar al usuario si se ha guardado bien o no.
+        // en el caso de que se haya guardado correctamente, avisarle del código que tiene su producto
+    }
+    private static void sumaServei(LlistaUser llista, String nom, String descripcion){
+        System.out.println("¿Hasta cuando estara disponible el servicio?");
+        //TODO: pillar datos de fecha hasta la que se ofrece el servicio y controlar las excepciones necesarias
+        //TODO: Comprobar que se haya guardado el producto correctamente y avisar al usuario si se ha guardado bien o no.
+        // en el caso de que se haya guardado correctamente, avisarle del código que tiene su producto
+    }
+    //Dejo la función pedirProducto por si acaso
+    private static Productes pedirProducto(LlistaUser llista, String usuario) {
+        String a, t;
+        int pos = llista.posUsuario(usuario);
+        Productes product=null; //Quitar esto (solo está para que no aparezca error)
+        do {
+            System.out.println("Introduce el producto: ");
+            a = teclat.nextLine();
+            if (!llista.productoUsuarioRegistrado(a)) System.out.println("Producto no encontrado, vuelve "
+                    + "a intentarlo\n");
+        } while (!llista.productoUsuarioRegistrado(a));
+        User[] llista2 = llista.getLlista();
+        t = llista2[pos].getTipusProducte(a);
+        //Productes product = new Productes(a, t);
+        return product;
     }
     private static void menosProd(LlistaUser llista) {
         String p;
@@ -191,21 +239,6 @@ public class RegUser{
         Peticiones p = llista.getPeticionLlista(a, pos);
         if (llista.quitaIntercambio(a, p) == 0) System.out.println("No se ha encontrado el intercambio");
         if (llista.quitaIntercambio(a, p) == 1) System.out.println("Intercambio quitado correctamente");
-    }
-
-    private static Productes pedirProducto(LlistaUser llista, String usuario) {
-        String a, t;
-        int pos = llista.posUsuario(usuario);
-        do {
-            System.out.println("Introduce el producto: ");
-            a = teclat.nextLine();
-            if (!llista.productoUsuarioRegistrado(a)) System.out.println("Producto no encontrado, vuelve "
-                    + "a intentarlo\n");
-        } while (!llista.productoUsuarioRegistrado(a));
-        User[] llista2 = llista.getLlista();
-        t = llista2[pos].getTipusProducte(a);
-        Productes product = new Productes(a, t);
-        return product;
     }
 
     private static String pedirCodigo(){
