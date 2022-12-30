@@ -2,12 +2,12 @@ package Productes;
 import ControlFitxers.Data;
 
 public class LlistaProductes  {
-    public Productes[] llista;
+    public Productes[] llista1;
     public int nElem;
 
     public LlistaProductes(int elem){
         nElem=0;
-        llista= new Productes[elem];
+        llista1= new Productes[elem];
     }
     /**
      * Método que permite mostrar por pantalla LlistaProductes
@@ -17,7 +17,7 @@ public class LlistaProductes  {
     public String toString() {
         String aux = "LLista Productes => Producte: " + nElem;
         for (int j = 0; j < nElem; j++) {
-            aux = aux + "\n\tProducte " + (j + 1) + "\t " + llista[j];
+            aux = aux + "\n\tProducte " + (j + 1) + "\t " + llista1[j];
         }
         return aux;
     }
@@ -27,13 +27,13 @@ public class LlistaProductes  {
      * @param nuevo contiene lel nuevo producto que queremos añadir
      */
     public void afegirProducte(Productes nuevo) {
-        if (nElem >= llista.length) {
-            Productes[]aux = new Productes[llista.length * 2];
+        if (nElem >= llista1.length) {
+            Productes[]aux = new Productes[llista1.length * 2];
             for (int i = 0; i < nElem; i++)
-                aux[i] = llista[i];
-            llista = aux;
+                aux[i] = llista1[i];
+            llista1 = aux;
         }
-        llista[nElem]=nuevo.copia();
+        llista1[nElem]=nuevo.copia();
         nElem++;
     }
 
@@ -46,19 +46,19 @@ public class LlistaProductes  {
         int numIntercanvis, l = 0,m=0;
         boolean trobat=false;
         while(!trobat&&m<nElem){
-            if(llista[m] instanceof Serveis)
+            if(llista1[m] instanceof Serveis)
                 trobat=true;
             else m++;
         }
-        numIntercanvis = llista[m].getIntercanvis();
+        numIntercanvis = llista1[m].getIntercanvis();
         while (m < nElem) {
-            if((llista[m] instanceof Serveis)&& (numIntercanvis <= llista[m].getIntercanvis())) { //si el numero de inetrcanvis  es inferior al numero de intercanvis de la posicion analizada
-                numIntercanvis = llista[m].getIntercanvis(); //actualizamos el numero de dias max del cartel
+            if((llista1[m] instanceof Serveis)&& (numIntercanvis <= llista1[m].getIntercanvis())) { //si el numero de inetrcanvis  es inferior al numero de intercanvis de la posicion analizada
+                numIntercanvis = llista1[m].getIntercanvis(); //actualizamos el numero de dias max del cartel
                 l= m; //guardamos la posicion de numIntercanvis en l
             }
             m++;
         }
-        return llista[l].toString(); //Se muestra por pantalla el servicio (con el mayor numero de intercanvis)
+        return llista1[l].toString(); //Se muestra por pantalla el servicio (con el mayor numero de intercanvis)
     }
     /** Método que descativa un producto
      *
@@ -69,10 +69,10 @@ public class LlistaProductes  {
     public boolean desactivaProducte( int code,Data data2) {
         boolean trobat = false;
         for (int n=0; n < nElem; n++) {
-            if (llista[n].getCode( )==code){
-                llista[n].desactivaProducte();
-                if(llista[n] instanceof Serveis)
-                    ((Serveis) llista[n]).setDataDes(data2);
+            if (llista1[n].getCode( )==code){
+                llista1[n].desactivaProducte();
+                if(llista1[n] instanceof Serveis)
+                    ((Serveis) llista1[n]).setDataDes(data2);
             }
         }
         return trobat;
@@ -85,8 +85,23 @@ public class LlistaProductes  {
         LlistaProductes aux = new LlistaProductes(nElem);
         int i=0;
         while(i<nElem){
-            if((llista[i] instanceof Serveis)&&(llista[i].isEstat())){
-                aux.afegirProducte(llista[i]);    //Se desplaza el resto de la lista para eliminarla y no dejar huecos
+            if((llista1[i] instanceof Serveis)&&(llista1[i].isEstat())){
+                aux.afegirProducte(llista1[i]);    //Se desplaza el resto de la lista para eliminarla y no dejar huecos
+            }
+            i++;
+        }
+        return aux.toString();
+    }
+    /** Método que muestra los productos activos
+     *
+     * @return String lista con todos los productos activos
+     */
+    public String mostraProductesActius( ){
+        LlistaProductes aux = new LlistaProductes(nElem);
+        int i=0;
+        while(i<nElem){
+            if(llista1[i].isEstat()){
+                aux.afegirProducte(llista1[i]);    //Se desplaza el resto de la lista para eliminarla y no dejar huecos
             }
             i++;
         }
@@ -96,12 +111,12 @@ public class LlistaProductes  {
      *
      * @return String lista con todos los bienes disponibles
      */
-    public String mostraBensActius( ){
+    public String mostraBensActius( ){ //lo dejo por si acaso pero creo que se puede quitar TODO
         LlistaProductes aux = new LlistaProductes(nElem);
         int i=0;
         while(i<nElem){
-            if((llista[i] instanceof Bienes)&&(llista[i].isEstat())){
-                aux.afegirProducte(llista[i]);    //Se desplaza el resto de la lista para eliminarla y no dejar huecos
+            if((llista1[i] instanceof Bienes)&&(llista1[i].isEstat())){
+                aux.afegirProducte(llista1[i]);    //Se desplaza el resto de la lista para eliminarla y no dejar huecos
             }
             i++;
         }
@@ -111,18 +126,28 @@ public class LlistaProductes  {
      *
      * @param code contiene el código del producto.
      */
-    public void eliminaProducto(int code){
-        int i=0;
-        while(i<nElem){
-            if((llista[i].getCode( )==code)&&(llista[i].getIntercanvis()>0)){
-                for(int k=i; k<nElem-1; k++){           //Si se encuentra el codigo en la lista de productos y tiene algun intercambio
-                    llista[k] = llista[k+1];    //Se desplaza el resto de la lista para eliminarlo y no dejar huecos
+    public boolean eliminaProducto(int code) {
+        int i = 0;
+        boolean eliminat=false;
+        while (i < nElem) {
+            if ((llista1[i].getCode() == code) && (llista1[i].getIntercanvis() > 0)) {
+                for (int k = i; k < nElem - 1; k++) {      //Si se encuentra el codigo en la lista de productos y tiene algun intercambio
+                    llista1[k] = llista1[k + 1];    //Se desplaza el resto de la lista para eliminarlo y no dejar huecos
                 }
                 nElem--; //Si hemos eliminado un producto, actualizamos el nº de elementos que pasa a tener la lista
-            }
-            else i++; //Solo si no encontramos el producto
+                eliminat=true; //hem trobat i eliminat el producte
+            } else i++; //Solo si no encontramos el producto
         }
+        return eliminat;
     }
+        /** Método que elimina un producto de la lista siempre y cuando tenga mínimo un intercmabio
+         *
+         * @return darrer producte de la llista
+         */
+    public Productes darrerElem( ){
+            return llista1[nElem];
+        }
+
 
     public int getnumProd() {
         return nElem;
@@ -132,7 +157,7 @@ public class LlistaProductes  {
      * torna nElements LLista
      */
     public Productes getList(int i) {
-        return llista[i];
+        return llista1[i];
     }
 
     /**

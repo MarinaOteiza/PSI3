@@ -4,7 +4,7 @@ import dataUsr.*;
 import java.util.Scanner;
 import Peticiones.*;
 import Productes.*;
-
+import ControlFitxers.*;
 /**
  *
  * @author Marina Oteiza
@@ -16,6 +16,7 @@ public class RegUser{
         int opcion=10; //hay que iniciarlo, asi que ponemos un valor cualquiera
         boolean exit=false;
         LlistaUser llista = new LlistaUser(100);
+        LlistaProductes llista1= new LlistaProductes(500); //500 como max elem
 
         do{
             menu();
@@ -49,7 +50,7 @@ public class RegUser{
                     sumaIntercamb(llista);
                     break;
                 case 7:
-                    menosProd(llista);
+                    menosProd(llista,llista1);
                     break;
                 case 8:
                     menosIntercamb(llista);
@@ -61,6 +62,14 @@ public class RegUser{
                     ContestarCliente(llista);
                     break;
                 case 11:
+                    desactivaProducte(llista1);
+                case 12:
+                    ServeisActius(llista1);
+                case 13:
+                    MostraProdActius(llista1);
+                case 14:
+                    ServeiMesIntercanvis(llista1);
+                case 15:
                     System.out.println("Has salido");
                     exit = true;
                     break;
@@ -73,15 +82,19 @@ public class RegUser{
         System.out.println("Que quieres hacer? ");
         System.out.println("1-Nuevo registro ");
         System.out.println("2-Ver usuarios registados ");
-        System.out.println("2-Ver productos ");
-        System.out.println("2-Ver intercambios ");
+        System.out.println("3-Ver productos ");
+        System.out.println("4-Ver intercambios ");
         System.out.println("5-Sumar producto ");
         System.out.println("6-Proponer intercambio");
-        System.out.println("7-Quitar producto ");
+        System.out.println("7-Quitar producto");
         System.out.println("8-Quitar intercambio");
         System.out.println("9-Responder intercambios");
         System.out.println("10-Valoración del intercambio");
-        System.out.println("11-Salir ");
+        System.out.println("11-Desactivar un producto");
+        System.out.println("12-Ver lista de todos los servicios activos");
+        System.out.println("13-Mostrar todos los productos activos");
+        System.out.println("14-Mostrar el servicio con mas intercambios");
+        System.out.println("15-Salir ");
         System.out.print("\n\t\t\tIndica opcion:\n");
     }
 
@@ -119,13 +132,20 @@ public class RegUser{
         int tipus=10;
         String a=pedirAlias(llista);
         System.out.println("Que producto quieres añadir? ");
-        p=teclat.nextLine();
-        if(llista.nuevoProducto(a, p)) System.out.println("Producto añadido correctamente");
-        else System.out.println("El producto no se ha podido añadir");
+        //p=teclat.nextLine(); TODO descomentar esto la p da error
+       // if(llista.nuevoProducto(a, p)) System.out.println("Producto añadido correctamente");
+       // else System.out.println("El producto no se ha podido añadir");
     }
 
-    private static void sumaFisic(LlistaUser llista, String nom, String descripcion) {
-        int amplada, alcada, fons, pes;
+    private static void sumaFisic(LlistaUser llista, String nom, String descripcion, LlistaProductes llista1) {
+        int amplada, alcada, fons, pes,intercanvis=0,code;
+        boolean estat=true; //afegim un nou produtcte fisic, per tant es troba actiu
+        System.out.println("Indica la data d'introduccio del ben (dia, mes i any: 00/00/0000): ");
+        String fecha1 = teclat.nextLine();
+        String[] fechaPartida1 = fecha1.split("/"); //creamos una tabla con las fechas divididas segun "/"
+        Data data1 = new Data (Integer.parseInt(fechaPartida1[0]), Integer.parseInt(fechaPartida1[1]), Integer.parseInt(fechaPartida1[2]));
+        code=12345; // TODO  avisarle del código que tiene su producto, este me lo he inventado jejejeje
+        Data data2= new Data(); //fecha creada por defecto 1/01/2000
         //TODO: ponemos límites de peso o tamaño????????????Además tiene si se ha intercambiado o no y data del intercambio en ese caso pero NO cuando se crea
         //TODO: lanzar excepciones con valores negativos y del tipo String
         System.out.println("Introduce la amplada: ");
@@ -136,14 +156,37 @@ public class RegUser{
         fons = Integer.parseInt(teclat.nextLine());
         System.out.println("Introduce el pes: ");
         pes = Integer.parseInt(teclat.nextLine());
-        //TODO: comprobar que se haya guardado el producto correctamente y avisar al usuario si se ha guardado bien o no.
-        // en el caso de que se haya guardado correctamente, avisarle del código que tiene su producto
+        Bienes producte=new Bienes(code,descripcion,data1,data2,estat,intercanvis,amplada,alcada,fons,pes);
+        llista1.afegirProducte(producte);
+        if(llista1.darrerElem()==producte)
+            System.out.println("El bien se ha añadido correctamente");
+        else
+            System.out.println("El bien no se ha podido añadir");
     }
-    private static void sumaServei(LlistaUser llista, String nom, String descripcion){
-        System.out.println("¿Hasta cuando estara disponible el servicio?");
-        //TODO: pillar datos de fecha hasta la que se ofrece el servicio y controlar las excepciones necesarias
-        //TODO: Comprobar que se haya guardado el producto correctamente y avisar al usuario si se ha guardado bien o no.
-        // en el caso de que se haya guardado correctamente, avisarle del código que tiene su producto
+    /**
+     * Método que añade un servicio a la lista de productos
+     * @param llista1 Llista de productes
+     */
+    private static void sumaServei(LlistaUser llista, String nom, String descripcion, LlistaProductes llista1){
+        int code,intercanvis=0;
+        boolean estat=true;
+        code=1234; // TODO avisarle del código que tiene su producto
+        System.out.println("Indica la data d'introduccio del servei (dia, mes i any: 00/00/0000): ");
+        String fecha1 = teclat.nextLine();
+        String[] fechaPartida1 = fecha1.split("/"); //creamos una tabla con las fechas divididas segun "/"
+        Data data1 = new Data (Integer.parseInt(fechaPartida1[0]), Integer.parseInt(fechaPartida1[1]), Integer.parseInt(fechaPartida1[2]));
+        System.out.println("Indica la data de disponibilitat final del servei (dia, mes i any: 00/00/0000): ");
+        String fecha2 = teclat.nextLine();
+        String[] fechaPartida2 = fecha2.split("/"); //creamos una tabla con las fechas divididas segun "/"
+        Data data2 = new Data (Integer.parseInt(fechaPartida2[0]), Integer.parseInt(fechaPartida2[1]), Integer.parseInt(fechaPartida2[2]));
+        Data data3=new Data(); //introduim com data intercanvi 1/01/2000 per defecte
+        Serveis producte=new Serveis(code,descripcion,data1,data3,estat,intercanvis,data2);
+        llista1.afegirProducte(producte);
+        if(llista1.darrerElem()==producte)
+            System.out.println("El servicio se ha añadido correctamente");
+        else
+            System.out.println("El servicio no se ha podido añadir");
+
     }
     //Dejo la función pedirProducto por si acaso
     private static Productes pedirProducto(LlistaUser llista, String usuario) {
@@ -161,13 +204,21 @@ public class RegUser{
         //Productes product = new Productes(a, t);
         return product;
     }
-    private static void menosProd(LlistaUser llista) {
+    /**
+     * Método que elimina un producto de la lista del usuario y de la lista de productos
+     * @param llista1 Llista de productes
+     * @param llista Llista d'usuari
+     */
+    private static void menosProd(LlistaUser llista, LlistaProductes llista1) {
         String p;
         String a=pedirAlias(llista);
         System.out.println("Que intercambio quieres quitar? ");
         p=teclat.nextLine();
-        if(llista.quitaProducto(a, p)==0) System.out.println("No se ha encontrado el producto");
-        if(llista.quitaProducto(a, p)==1) System.out.println("Producto quitado correctamente");
+        int code=1234; //TODO como sabe el usuario el codigo del producto a eliminar
+        if((llista.quitaProducto(a, p)==0)&&(llista1.eliminaProducto(code)==false)) System.out.println("No se ha encontrado el producto");
+        if((llista.quitaProducto(a, p)==1)&&(llista1.eliminaProducto(code)==true)) System.out.println("Producto quitado correctamente");
+
+
     }
 
     private static String pedirAlias(LlistaUser llista) {
@@ -329,5 +380,35 @@ public class RegUser{
                 }
             }
         }
+    }
+    /** Métode que descativa un servei
+     *
+     * @param llista1 Llista de productes
+     */
+    private static void desactivaProducte(LlistaProductes llista1){
+        System.out.println("Introdueix el codi del producte que vols desactivar"); //TODO como sabe el usuario el codigo del servicio??
+        int code = Integer.parseInt(teclat.nextLine());
+        System.out.println("Indica la data en la qual es vol desactivar el servei (dia, mes i any: 00/00/0000): ");
+        String fecha2 = teclat.nextLine();
+        String[] fechaPartida2 = fecha2.split("/"); //creamos una tabla con las fechas divididas segun "/"
+        Data data2 = new Data (Integer.parseInt(fechaPartida2[0]), Integer.parseInt(fechaPartida2[1]), Integer.parseInt(fechaPartida2[2]));
+        if(!llista1.desactivaProducte(code,data2))
+            System.out.println("no s'ha trobat el servei que es vol eliminar");
+    }
+    /** Método que muestra los servicios activos
+     * @param llista1 Llista de productes
+     */
+    private static void ServeisActius (LlistaProductes llista1){
+       System.out.println(llista1.mostraServeisActius()); //lista con todos los servicios activos (estat=true)
+    }
+    /**
+     * Método que indica cuál es el servicio con mas intercambios
+     * @param llista1 Llista de productes
+     */
+    private static void ServeiMesIntercanvis(LlistaProductes llista1){
+        System.out.println(llista1.mesIntercanvis()) ; //de forma toSting así vemos los datos del servicio(incluio el num de intercambios)
+    }
+    private static void MostraProdActius(LlistaProductes llista1){
+        System.out.print(llista1.mostraProductesActius());
     }
 }
