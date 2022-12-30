@@ -1,4 +1,8 @@
 package dataUsr;
+import Peticiones.LlistaPeticiones;
+import Peticiones.Peticiones;
+import Productes.Productes;
+
 import java.io.Serializable;
 /**
  *
@@ -7,8 +11,9 @@ import java.io.Serializable;
  */
 public class User implements Serializable{
     private String alias, correo;
-    private String[] prod, intercamb;
+    private Productes[] prod;
     private int codiPost, nProd, nInter;
+    LlistaPeticiones intercamb;
 
     public User(String alias, String correo, int cod){
         this.alias=alias;
@@ -16,22 +21,33 @@ public class User implements Serializable{
         codiPost=cod;
         nProd=0;
         nInter=0;
-        prod = new String[100]; //POR AHORA PONEMOS UN TAMAÑO AL AZAR
-        intercamb = new String[100];
+        prod = new Productes[100]; //POR AHORA PONEMOS UN TAMAÑO AL AZAR
+        intercamb = new LlistaPeticiones(100);
     }
 
     /** Esta función devuelve una copia del usuario que se le haya pasado
      *
      *	@return aux copia de la información del registro de un usuario
      */
+
+    public User(String alias, String correo, int cod,  int numProductes, int numIntercambis){
+        this.alias=alias;
+        this.correo=correo;
+        codiPost=cod;
+        nProd=numProductes;
+        nInter=numIntercambis;
+        prod = new Productes[100]; //POR AHORA PONEMOS UN TAMAÑO AL AZAR
+        intercamb = new LlistaPeticiones(100);
+    }
+
+    /* Sonia Alfonso: otro constructor para tener más información en el fichero binario*/
+
     public User copia() {
         User aux=new User(alias, correo, codiPost); //creamos el usuario
         for(int i=0;i<nProd;i++) {
             aux.prod[i]= this.prod[i];
         }
-        for(int i=0;i<nInter;i++) {
-            aux.intercamb[i]= this.intercamb[i];
-        }
+        aux.intercamb= this.intercamb.copiaL();
         aux.nProd=this.nProd;
         aux.nInter=this.nInter;
 
@@ -42,7 +58,7 @@ public class User implements Serializable{
      *
      * @param p producto que se quiere añadir
      */
-    public void newProd(String p) {
+    public void newProd(Productes p) {
         if(nProd<prod.length) {	//Si hay espacio para guardar más productos
             prod[nProd]=p;		//Se guarda el que se ha pasado por parámetro
             nProd++;
@@ -53,11 +69,8 @@ public class User implements Serializable{
      *
      * @param i intercambio que se quiere añadir
      */
-    public void newIntercamb(String i) {
-        if(nInter<intercamb.length) {	//Si hay espacio para guardar más productos
-            intercamb[nInter]=i;		//Se guarda el que se ha pasado por parámetro
-            nInter++;
-        }
+    public void newIntercamb(Peticiones i) {
+        this.intercamb.addP(i);
     }
 
     /** Esta función busca el producto indicado y devuelve el valor de la posición de la lista
@@ -83,12 +96,8 @@ public class User implements Serializable{
      * @return pos pos=-1 si no se ha encontrado el intercambio i o pos=posición
      * en la que se encuentra el intercambio en this.intercamb[]
      */
-    public int intercambTrobat(String inter) {
-        int pos=-1;
-        for(int i=0;i<intercamb.length;i++) {
-            if(intercamb[i].equals(inter))pos=i;
-        }
-        return pos;
+    public int intercambTrobat(Peticiones inter) {
+        return intercamb.trobatPeticion(inter);
     }
 
     /** Borramos el producto introducido por parámetro
@@ -111,16 +120,8 @@ public class User implements Serializable{
      *
      * @param inter intercambio que se quiere borrar
      */
-    public void borraIntercamb(String inter) {
-        int pos=intercambTrobat(inter);	//Si se ha encotrado el intercambio (pos!=-1), lo borramos
-        if(pos!=-1) {
-            for(int i=pos;i<nInter-1; i++) {
-                intercamb[i]=intercamb[i+1];
-            }
-            intercamb[nInter-1]=null;
-            nInter--;
-        }
-
+    public void borraIntercamb(Peticiones inter) {
+        intercamb.subP(inter);
     }
 
     /** Devolvemos la información del usuario en formato String para poder mostrarla desde otras clases
@@ -152,8 +153,8 @@ public class User implements Serializable{
      */
     public String showIntercamb() {
         String aux = "Intercambios de "+this.alias;
-        for(int i=0;i<nInter; i++) {
-            aux=aux+"Intercambio "+(i+1)+"=> "+this.intercamb[i];
+        for(int i=0;i<intercamb.getNumllist(); i++) {
+            aux=aux+"Intercambio "+(i+1)+"=> "+this.intercamb.getLlistaPos(i);
         }
         return aux;
     }
@@ -176,20 +177,12 @@ public class User implements Serializable{
         this.correo = correo;
     }
 
-    public String[] getProd() {
+    public Productes[] getProd() {
         return prod;
     }
 
-    public void setProd(String[] prod) {
+    public void setProd(Productes[] prod) {
         this.prod = prod;
-    }
-
-    public String[] getIntercamb() {
-        return intercamb;
-    }
-
-    public void setIntercamb(String[] intercamb) {
-        this.intercamb = intercamb;
     }
 
     public int getCodiPost() {
@@ -214,5 +207,18 @@ public class User implements Serializable{
 
     public void setnInter(int nInter) {
         this.nInter = nInter;
+    }
+
+    public String getTipusProducte(String producte) {
+        int i=0,j=0;
+        while (i==0 && j<nProd){
+            if(prod[j].getDescrip().equals(producte)) {
+                i = j; j++;
+            }else j++;
+        }
+        return prod[i].getTipus_product();
+    }
+    public LlistaPeticiones getIntercamb() {
+        return intercamb;
     }
 }

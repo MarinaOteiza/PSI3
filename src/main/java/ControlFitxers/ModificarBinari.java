@@ -22,7 +22,7 @@ public class ModificarBinari extends ObjectOutputStream {
         super.writeStreamHeader();
         reset();
     }
-    /* para añadir el  texto sin borrar el anterior
+    /* para añadir   texto sin borrar el anterior
     * reset de la cabezera para añadir continuamente */
 
 

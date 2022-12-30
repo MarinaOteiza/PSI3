@@ -10,6 +10,10 @@ public abstract class Productes {
     private boolean estat;
     private int intercanvis;
 
+    private boolean productTienePeticion;
+
+    private String tipus_product;
+
     public Productes(int code, String descrip, Data dataOf, Data dataInt, boolean estat, int intercanvis) {
         this.code = code;
         this.descrip = descrip;
@@ -17,6 +21,7 @@ public abstract class Productes {
         this.dataInt = dataInt;
         this.estat = true;              //el producto esta disponible
         this.intercanvis = 0;          //no se ha hecho ningun intercambio
+        this.productTienePeticion=false;
     }
 
     /**
@@ -109,5 +114,15 @@ public abstract class Productes {
      */
     public abstract String toString();
 
+    public void setProductTienePeticion(boolean productTienePeticion) {
+        this.productTienePeticion = productTienePeticion;
+    }
+
+    public String getTipus_product(){ return tipus_product;}
+
+    public boolean isProductTienePeticion() {return productTienePeticion;}
 
 }
+
+
+
