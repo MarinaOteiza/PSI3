@@ -22,7 +22,7 @@ public class RegUser{
             menu();
             try{
                 opcion = Integer.parseInt(teclat.nextLine());
-                if(opcion<1 || opcion>9) throw new IndexOutOfBoundsException();
+                if(opcion<1 || opcion>15) throw new IndexOutOfBoundsException();
             }catch(NumberFormatException e){
                 System.out.println("Introduce un valor numérico \nERROR: "+e+"\n\n");
             }catch (IndexOutOfBoundsException e){
@@ -127,54 +127,40 @@ public class RegUser{
         if(llista.usuarioRegistrado(alias))System.out.println("Usuario guardado correctamente");
     }
     private static void sumaProd(LlistaUser llista) {
-        String nombre, descripcion;
-        //TODO INTRODUCIR LA DATA DEL DÍA EN EL QUE SE PONE EL PRODUCTO!!!
+        String nombre, descripcion, codigo=null;
         int tipus=10;
         String a=pedirAlias(llista);
+
         System.out.println("Que producto quieres añadir? ");
         //p=teclat.nextLine(); TODO descomentar esto la p da error
        // if(llista.nuevoProducto(a, p)) System.out.println("Producto añadido correctamente");
        // else System.out.println("El producto no se ha podido añadir");
     }
 
-    private static void sumaFisic(LlistaUser llista, String nom, String descripcion, LlistaProductes llista1) {
-        int amplada, alcada, fons, pes,intercanvis=0,code;
-        boolean estat=true; //afegim un nou produtcte fisic, per tant es troba actiu
-        System.out.println("Indica la data d'introduccio del ben (dia, mes i any: 00/00/0000): ");
-        String fecha1 = teclat.nextLine();
-        String[] fechaPartida1 = fecha1.split("/"); //creamos una tabla con las fechas divididas segun "/"
-        Data data1 = new Data (Integer.parseInt(fechaPartida1[0]), Integer.parseInt(fechaPartida1[1]), Integer.parseInt(fechaPartida1[2]));
-        code=12345; // TODO  avisarle del código que tiene su producto, este me lo he inventado jejejeje
-        Data data2= new Data(); //fecha creada por defecto 1/01/2000
+    private static void sumaFisic(String alias, LlistaUser llista, String nom, String code, String descripcion, Data data1, Data data2) {
+        double amplada, alcada, fons, pes;
+        int intercanvis=0;
         //TODO: ponemos límites de peso o tamaño????????????Además tiene si se ha intercambiado o no y data del intercambio en ese caso pero NO cuando se crea
         //TODO: lanzar excepciones con valores negativos y del tipo String
         System.out.println("Introduce la amplada: ");
-        amplada = Integer.parseInt(teclat.nextLine());
+        amplada = teclat.nextDouble();
         System.out.println("Introduce la alcada: ");
-        alcada = Integer.parseInt(teclat.nextLine());
+        alcada = teclat.nextDouble();
         System.out.println("Introduce el fons: ");
-        fons = Integer.parseInt(teclat.nextLine());
+        fons = teclat.nextDouble();
         System.out.println("Introduce el pes: ");
-        pes = Integer.parseInt(teclat.nextLine());
-        Bienes producte=new Bienes(code,descripcion,data1,data2,estat,intercanvis,amplada,alcada,fons,pes);
-        llista1.afegirProducte(producte);
-        if(llista1.darrerElem()==producte)
-            System.out.println("El bien se ha añadido correctamente");
-        else
-            System.out.println("El bien no se ha podido añadir");
+        pes = teclat.nextDouble();
+        //llista.(code,descripcion,data1,data2,estat,intercanvis,amplada,alcada,fons,pes);
+        //if(llista1.darrerElem()==producte)
+            //System.out.println("El bien se ha añadido correctamente");
+        //else
+            //System.out.println("El bien no se ha podido añadir");
     }
     /**
      * Método que añade un servicio a la lista de productos
-     * @param llista1 Llista de productes
+     *  Llista de productes
      */
-    private static void sumaServei(LlistaUser llista, String nom, String descripcion, LlistaProductes llista1){
-        int code,intercanvis=0;
-        boolean estat=true;
-        code=1234; // TODO avisarle del código que tiene su producto
-        System.out.println("Indica la data d'introduccio del servei (dia, mes i any: 00/00/0000): ");
-        String fecha1 = teclat.nextLine();
-        String[] fechaPartida1 = fecha1.split("/"); //creamos una tabla con las fechas divididas segun "/"
-        Data data1 = new Data (Integer.parseInt(fechaPartida1[0]), Integer.parseInt(fechaPartida1[1]), Integer.parseInt(fechaPartida1[2]));
+    private static void sumaServei(String alias, LlistaUser llista, String nom, String code, String descripcion, Data data1, Data data2){
         System.out.println("Indica la data de disponibilitat final del servei (dia, mes i any: 00/00/0000): ");
         String fecha2 = teclat.nextLine();
         String[] fechaPartida2 = fecha2.split("/"); //creamos una tabla con las fechas divididas segun "/"

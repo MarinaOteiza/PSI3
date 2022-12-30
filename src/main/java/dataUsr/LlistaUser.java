@@ -1,5 +1,6 @@
 package dataUsr;
 
+import ControlFitxers.Data;
 import Peticiones.*;
 import Productes.*;
 
@@ -216,6 +217,23 @@ public class LlistaUser{
         }
         return 0;
     }
+    public void newBien(String nom, String code, String descripcion, double ancho, double alto, double largo, double peso, Data data1, Data data2) {
+        Bienes b = new Bienes(nom,code, descripcion,data1, "bien",ancho, alto, largo, peso, data2);
+        llistaProd.afegirProducte(b);
+        if(nProd<prod.length) {	//Si hay espacio para guardar más productos
+            prod[nProd]=code;		//Se guarda el que se ha pasado por parámetro
+            nProd++;
+        }
+    }
+    public void newServei(String nom, String code, String descripcion,Data data1, Data data2) {
+        Serveis s= new Serveis(nom, code, descripcion,data1,data2,"servicio");
+        llistaProd.afegirProducte(s);
+        if(nProd<prod.length) {	//Si hay espacio para guardar más productos
+            prod[nProd]=code;		//Se guarda el que se ha pasado por parámetro
+            nProd++;
+        }
+    }
+
 
     public Peticiones getPeticionLlista(String alias, int i){
         int pos=0;

@@ -1,9 +1,10 @@
 package dataUsr;
-import Peticiones.LlistaPeticiones;
-import Peticiones.Peticiones;
-import Productes.Productes;
-
+import Peticiones.*;
+import Productes.*;
+import Productes.LlistaProductes;
 import java.io.Serializable;
+import ControlFitxers.Data;
+
 /**
  *
  * @author Marina Oteiza
@@ -11,9 +12,10 @@ import java.io.Serializable;
  */
 public class User implements Serializable{
     private String alias, correo;
-    private Productes[] prod;
+    private String[] prod, intercamb;
     private int codiPost, nProd, nInter;
-    LlistaPeticiones intercamb;
+    private LlistaPeticiones llistaIntercamb;
+    private  LlistaProductes llistaProd;
 
     public User(String alias, String correo, int cod){
         this.alias=alias;
@@ -21,25 +23,16 @@ public class User implements Serializable{
         codiPost=cod;
         nProd=0;
         nInter=0;
-        prod = new Productes[100]; //POR AHORA PONEMOS UN TAMAÑO AL AZAR
-        intercamb = new LlistaPeticiones(100);
+        prod = new String[100]; //POR AHORA PONEMOS UN TAMAÑO AL AZAR
+        intercamb = new String[100]; //POR AHORA PONEMOS UN TAMAÑO AL AZAR
+        llistaIntercamb = new LlistaPeticiones(100);
+        llistaProd= new LlistaProductes(500); //500 como max elem
     }
 
     /** Esta función devuelve una copia del usuario que se le haya pasado
      *
      *	@return aux copia de la información del registro de un usuario
      */
-
-    public User(String alias, String correo, int cod,  int numProductes, int numIntercambis){
-        this.alias=alias;
-        this.correo=correo;
-        codiPost=cod;
-        nProd=numProductes;
-        nInter=numIntercambis;
-        prod = new Productes[100]; //POR AHORA PONEMOS UN TAMAÑO AL AZAR
-        intercamb = new LlistaPeticiones(100);
-    }
-
     /* Sonia Alfonso: otro constructor para tener más información en el fichero binario*/
 
     public User copia() {
@@ -47,22 +40,11 @@ public class User implements Serializable{
         for(int i=0;i<nProd;i++) {
             aux.prod[i]= this.prod[i];
         }
-        aux.intercamb= this.intercamb.copiaL();
+        aux.intercamb= this.intercamb.copia();
         aux.nProd=this.nProd;
         aux.nInter=this.nInter;
 
         return aux;
-    }
-
-    /** Esta función añade un nuevo producto al usuario indicado
-     *
-     * @param p producto que se quiere añadir
-     */
-    public void newProd(Productes p) {
-        if(nProd<prod.length) {	//Si hay espacio para guardar más productos
-            prod[nProd]=p;		//Se guarda el que se ha pasado por parámetro
-            nProd++;
-        }
     }
 
     /** Esta función añade un nuevo intercambio al usuario indicado
@@ -80,7 +62,8 @@ public class User implements Serializable{
      * @return pos pos=-1 si no se ha encontrado el producto p o pos=posición
      * en la que se encuentra el producto en this.prod[]
      */
-    public int prodTrobat(String p) {
+    public int prodTrobat(String code) {
+        //TODO:llamar a función que se encuentre en la classe productos
         int pos=-1;
         for(int i=0;i<prod.length;i++) {
             if(prod[i].equals(p))pos=i;
