@@ -18,7 +18,7 @@ public class TestBinari {
             Classe a parte creada para poder añadir cambiando la cabezera sin borrar el contenido del archivo
              */
 
-            escritura.writeObject(new User(u1.getAlias(), u1.getCorreo(), u1.getCodiPost(), u1.getnInter(), u1.getnProd()));
+            escritura.writeObject(new User(u1.getAlias(), u1.getCorreo(), u1.getCodiPost()));
             System.out.println("añadiendo usuarios ....");
             escritura.close();
 
@@ -45,7 +45,7 @@ public class TestBinari {
 
             ObjectOutputStream escritura = new ObjectOutputStream(archivo);
 
-            escritura.writeObject(new User(u1.getAlias(), u1.getAlias(), u1.getCodiPost(), u1.getnInter(), u1.getnProd()));
+            escritura.writeObject(new User(u1.getAlias(), u1.getAlias(), u1.getCodiPost()));
             System.out.println("escribiendo usuarios...");
             escritura.close();
 
@@ -66,7 +66,7 @@ public class TestBinari {
     /* note: escribirBinario ha de ir antes de AddBinario, ha de existir texto para añadirlo*/
 
     public void leerBinario(String NomFitxer) throws ClassNotFoundException {
-        User u = new User(null, null, 0, 0, 0);
+        User u = new User(null, null, 0);
         try {
             FileInputStream archivo = new FileInputStream(NomFitxer);
             ObjectInputStream lectura = new ObjectInputStream(archivo);

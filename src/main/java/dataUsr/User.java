@@ -10,7 +10,8 @@ import ControlFitxers.Data;
  * @author Marina Oteiza
  *
  */
-public class User implements Serializable{
+
+public class User implements Serializable {
     private String alias, correo;
     private String[] prod, intercamb;
     private int codiPost, nProd, nInter;
@@ -47,7 +48,18 @@ public class User implements Serializable{
         return aux;
     }
 
-    /** Esta función añade un nuevo intercambio al usuario indicado
+    public void newBien(String nom, String code, String descripcion, double ancho, double alto, double largo, double peso, Data data1) {
+        Bienes b = new Bienes(nom, code, descripcion, data1, "bien", ancho, alto, largo, peso);
+        llistaProd.afegirProducte(b);
+    }
+
+    public void newServei(String nom, String code, String descripcion, Data data1, Data data2) {
+        Serveis s = new Serveis(nom, code, descripcion, data1, data2, "servicio");
+        llistaProd.afegirProducte(s);
+    }
+
+    /**
+     * Esta función añade un nuevo intercambio al usuario indicado
      *
      * @param i intercambio que se quiere añadir
      */
@@ -58,21 +70,43 @@ public class User implements Serializable{
     /** Esta función busca el producto indicado y devuelve el valor de la posición de la lista
      * en la que se encuentra
      *
-     * @param p producto que se quiere buscar
-     * @return pos pos=-1 si no se ha encontrado el producto p o pos=posición
+     * producto que se quiere buscar
+     * @return pos=-1 si no se ha encontrado el producto p o pos=posición
      * en la que se encuentra el producto en this.prod[]
      */
     public int prodTrobat(String code) {
         //TODO:llamar a función que se encuentre en la classe productos
-        int pos=-1;
-        for(int i=0;i<prod.length;i++) {
-            if(prod[i].equals(p))pos=i;
+        int pos = -1;
+        for (int i = 0; i < prod.length; i++) {
+            if (prod[i].equals(code)) pos = i;
         }
 
         return pos;
     }
 
-    /** Esta función busca el intercambio indicado y devuelve el valor de la posición de la lista
+    public boolean prodTrobatDos(String code) {
+        int i = 0;
+        boolean trobat = false;
+        while (i < prod.length) {
+            if (prod[i].equals(code)) {
+                trobat = true;
+                break;
+            }
+        }
+        return trobat;
+    }
+
+    public void menosBien(String codigo) {
+        llistaProd.eliminaProducto(codigo);
+    }
+
+    public void inactivaServicio(String codigo, Data data2) {
+        llistaProd.desactivaServicio(codigo, data2);
+    }
+
+
+    /**
+     * Esta función busca el intercambio indicado y devuelve el valor de la posición de la lista
      * en la que se encuentra
      *
      * @param inter intercambio que se quiere buscar
