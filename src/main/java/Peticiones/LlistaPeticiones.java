@@ -92,4 +92,71 @@ public class LlistaPeticiones {
         }
         return -1;
     }
+
+    public void mostrarPeticPendents(){
+        System.out.println("A continuacion se mostrara tus productos con sus peticiones.");
+        for(int i=0; i<numllist; i++){
+            String FoS= LlistaP[i].getProducte().getTipus_product();
+            if(FoS.equals("Fisico")){
+                PeticioFisic[] llistF = ((LlistaPeticionesFisic)LlistaP[i]).getLlistaF();
+                int numllist= ((LlistaPeticionesFisic)LlistaP[i]).getNumllist();
+                for(int j=0; j<numllist;j++){
+                    if(llistF[j].getPeticPendent()==true)
+                        System.out.println("Producto: "+LlistaP[i].getProducte().getNom()+ "--> Alias: "+llistF[j].getUsuari_petic()+ "Intercambio: "+llistF[j].getPeticio_interc());
+                }
+            }else{
+                PeticionesServei[] llistS = ((LlistaPeticionesServei)LlistaP[i]).getLlistaS();
+                int numllist= ((LlistaPeticionesServei)LlistaP[i]).getNumllist();
+                for(int j=0; j<numllist;j++){
+                    if(llistS[j].getPeticPendent()==true)
+                        System.out.println("Producto: "+LlistaP[i].getProducte().getNom()+ "--> Alias: "+llistS[j].getUsuari_petic()+ "Intercambio: "+llistS[j].getPeticio_intercS());
+                }
+            }
+        }
+    }
+
+    public void mostrarPeticDenegats(){
+        System.out.println("A continuacion se mostrara tus productos denegados.");
+        for(int i=0; i<numllist; i++){
+            String FoS= LlistaP[i].getProducte().getTipus_product();
+            if(FoS.equals("Fisico")){
+                PeticioFisic[] llistF = ((LlistaPeticionesFisic)LlistaP[i]).getLlistaF();
+                int numllist= ((LlistaPeticionesFisic)LlistaP[i]).getNumllist();
+                for(int j=0; j<numllist;j++){
+                    if(llistF[j].getPeticioAoD()==false)
+                        System.out.println("Producto: "+LlistaP[i].getProducte().getNom()+ "--> Alias: "+llistF[j].getUsuari_petic()+ "Intercambio: "+llistF[j].getPeticio_interc());
+                }
+            }else{
+                PeticionesServei[] llistS = ((LlistaPeticionesServei)LlistaP[i]).getLlistaS();
+                int numllist= ((LlistaPeticionesServei)LlistaP[i]).getNumllist();
+                for(int j=0; j<numllist;j++){
+                    if(llistS[j].getPeticioAoD()==false)
+                        System.out.println("Producto: "+LlistaP[i].getProducte().getNom()+ "--> Alias: "+llistS[j].getUsuari_petic()+ "Intercambio: "+llistS[j].getPeticio_intercS());
+                }
+            }
+        }
+    }
+
+    public void mostrarPeticAcceptats(){
+        System.out.println("A continuacion se mostrara tus productos aceptados.");
+        for(int i=0; i<numllist; i++){
+            String FoS= LlistaP[i].getProducte().getTipus_product();
+            if(FoS.equals("Fisico")){
+                PeticioFisic[] llistF = ((LlistaPeticionesFisic)LlistaP[i]).getLlistaF();
+                int numllist= ((LlistaPeticionesFisic)LlistaP[i]).getNumllist();
+                for(int j=0; j<numllist;j++){
+                    if(llistF[j].getPeticioAoD()==true)
+                        System.out.println("Producto: "+LlistaP[i].getProducte().getNom()+ "--> Alias: "+llistF[j].getUsuari_petic()+ "Intercambio: "+llistF[j].getPeticio_interc());
+                }
+            }else{
+                PeticionesServei[] llistS = ((LlistaPeticionesServei)LlistaP[i]).getLlistaS();
+                int numllist= ((LlistaPeticionesServei)LlistaP[i]).getNumllist();
+                for(int j=0; j<numllist;j++){
+                    if(llistS[j].getPeticioAoD()==true)
+                        System.out.println("Producto: "+LlistaP[i].getProducte().getNom()+ "--> Alias: "+llistS[j].getUsuari_petic()+ "Intercambio: "+llistS[j].getPeticio_intercS());
+                }
+            }
+        }
+    }
 }
+

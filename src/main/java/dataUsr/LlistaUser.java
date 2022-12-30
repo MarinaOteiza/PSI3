@@ -3,6 +3,7 @@ package dataUsr;
 import ControlFitxers.Data;
 import Peticiones.*;
 import Productes.*;
+import Productes.LlistaProductes;
 
 /**
  *
@@ -104,22 +105,7 @@ public class LlistaUser{
         return correcto;
     }
 
-    /**Añadimos un producto a un usuario
-     *
-     * @param alias para saber qué usuario tenemos que modificar
-     * @param p producto que se quiere añadir
-     * @return correcto true si se ha podido añadir, false si no
-     */
-    public boolean nuevoProducto(String alias, Productes p) {
-        boolean correcto=false;
-        int pos;
-        if(this.usuarioRegistrado(alias)) {
-            pos= this.posUsuario(alias);
-            llista[pos].newProd(p);
-            correcto=true;
-        }
-        return correcto;
-    }
+
 
     /**Añadimos un intercambio a un usuario
      *
@@ -194,6 +180,23 @@ public class LlistaUser{
         }
         return(trobat);
     }
+    public void nouBe(String alias, String nom, String code, String descripcion, Data data1, double alto, double largo, double ancho, double peso){
+        llista[this.posUsuario(alias)].newBien(nom, code, descripcion, ancho, alto, largo, peso, data1);
+    }
+    public void nouServei(String alias, String nom, String code, String descripcion, Data data1, Data data2){
+        llista[this.posUsuario(alias)].newServei(nom, code, descripcion, data1, data2);
+    }
+
+    public boolean compProd(String alias, String p){
+        return(llista[this.posUsuario(alias)].prodTrobatDos(p));
+    }
+
+    public void quitaBien(String alias, String codigo){
+        llista[this.posUsuario(alias)].menosBien(codigo);
+    }
+    public void desactServicio(String alias, String codigo, Data data2){
+        llista[this.posUsuario(alias)].inactivaServicio(codigo, data2);
+    }
 
     /**Buscamos la posición en la que se encuentra el usuario en llista[]
      *
@@ -213,33 +216,18 @@ public class LlistaUser{
         int pos=0;
         if(this.usuarioRegistrado(alias)) {
             pos= this.posUsuario(alias);
-            return llista[pos].intercamb.trobatPeticion(p);
+            return llista[pos].getIntercamb().trobatPeticion(p); //TODO: a que funcion quieres llamar? getIntercamb();???
         }
         return 0;
     }
-    public void newBien(String nom, String code, String descripcion, double ancho, double alto, double largo, double peso, Data data1, Data data2) {
-        Bienes b = new Bienes(nom,code, descripcion,data1, "bien",ancho, alto, largo, peso, data2);
-        llistaProd.afegirProducte(b);
-        if(nProd<prod.length) {	//Si hay espacio para guardar más productos
-            prod[nProd]=code;		//Se guarda el que se ha pasado por parámetro
-            nProd++;
-        }
-    }
-    public void newServei(String nom, String code, String descripcion,Data data1, Data data2) {
-        Serveis s= new Serveis(nom, code, descripcion,data1,data2,"servicio");
-        llistaProd.afegirProducte(s);
-        if(nProd<prod.length) {	//Si hay espacio para guardar más productos
-            prod[nProd]=code;		//Se guarda el que se ha pasado por parámetro
-            nProd++;
-        }
-    }
+
 
 
     public Peticiones getPeticionLlista(String alias, int i){
         int pos=0;
         if(this.usuarioRegistrado(alias)) {
             pos= this.posUsuario(alias);
-            return llista[pos].intercamb.getLlistaPos(i);
+            return llista[pos].getIntercamb().getLlistaPos(i); //TODO: a que funcion quieres llamar? getIntercamb();???
         }
         return null;
     }
