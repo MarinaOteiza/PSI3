@@ -29,7 +29,7 @@ public class LlistaUser{
             llista[nElem]=u.copia();
             nElem++;
         }else {
-            if(usuarioRegistrado(u) && nElem<=llista.length) { //Lo añadimos si el usuario no se ha registrado anteriormente
+            if(!usuarioRegistrado(u) && nElem<=llista.length) { //Lo añadimos si el usuario no se ha registrado anteriormente
                 llista[nElem]=u.copia();
                 nElem++;
             }
@@ -68,98 +68,6 @@ public class LlistaUser{
         return(trobat);
     }
 
-    /**Borramos el producto del usuario cuyo alias y producto son especificados por parámetro
-     *
-     * @param alias para saber qué usuario tenemos que modificar
-     * @param p producto que se quiere quitar
-     * @return correcto -1:no se ha encontrado el alias; 0:intercambio no encontrado; 1:intercambio encontrado
-     */
-    public int quitaProducto(String alias, String p) {
-        int correcto=-1, pos;
-        if(this.usuarioRegistrado(alias)) { //Nos aseguramos de que el usuario de dicho alias exista previamente
-            pos= this.posUsuario(alias);    //Si existe, calculamos la posición de la llista en la que se encuentra (pos)
-            if(llista[pos].prodTrobat(p)!=-1) { //Comprobamos que el usuario haya introducido un producto válido
-                llista[pos].borraProd(p);
-                correcto=1;	//intercambio encontrado
-            }else correcto=0;//intercambio no encontrado
-        }
-
-        return correcto;
-    }
-
-    /**Borramos el intercambio del usuario cuyo alias y producto son especificados por parámetro
-     *
-     * @param alias para saber qué usuario tenemos que modificar
-     * @param inter intercambio que se quiere quitar
-     * @return correcto -1:no se ha encontrado el alias; 0:producto no encontrado; 1:producto encontrado
-     */
-    public int quitaIntercambio(String alias, Peticiones inter) {
-        int correcto=-1, pos;
-        if(this.usuarioRegistrado(alias)) { //Nos aseguramos de que el usuario de dicho alias exista previamente
-            pos= this.posUsuario(alias);    //Si existe, calculamos la posición de la llista en la que se encuentra (pos)
-            if(llista[pos].intercambTrobat(inter)!=-1) { //Comprobamos que el usuario haya introducido un producto válido
-                llista[pos].borraIntercamb(inter);
-                correcto=1;	//intercambio encontrado
-            }else correcto=0;//intercambio no encontrado
-        }
-        return correcto;
-    }
-
-
-
-    /**Añadimos un intercambio a un usuario
-     *
-     * @param alias para saber qué usuario tenemos que modificar
-     * @param inter intercambio que se quiere añadir
-     * @return correcto true si se ha podido añadir, false si no
-     */
-    public boolean nuevoIntercambio(String alias, Peticiones inter) {
-        boolean correcto=false;
-        int pos;
-        if(this.usuarioRegistrado(alias)) {
-            pos= this.posUsuario(alias);
-            llista[pos].newIntercamb(inter);
-            correcto=true;
-        }
-        return correcto;
-    }
-
-    /**Mostramos los productos de un usuario
-     *
-     * @param alias para saber qué usuario tenemos que modificar
-     * @return aux productos del usuario
-     */
-    public String muestraProd(String alias) {
-        String aux;
-        int pos;
-        if(usuarioRegistrado(alias)) {  //Comprobamos que el alias exista en llista[]
-            pos= this.posUsuario(alias);
-            aux = "Lista de productos de "+llista[pos].getAlias()+"\n";
-            for(int i=0;i<nElem;i++) {
-                aux=aux+"Usuario "+(i+1)+": "+llista[i].showProd()+"\n";
-            }
-        }else aux="El nombre de usuario no ha sido encontado. Por favor, intentelo de nuevo";
-        return aux;
-    }
-
-    /**Mostramos los intercambios de un usuario
-     *
-     * @param alias para saber qué usuario tenemos que modificar
-     * @return aux intercambios del usuario
-     */
-    public String muestraIntercamb(String alias) {
-        String aux;
-        int pos;
-        if(usuarioRegistrado(alias)) {
-            pos= this.posUsuario(alias);
-            aux = "Lista de intercambios de "+llista[pos].getAlias()+"\n";
-            for(int i=0;i<nElem;i++) {
-                aux=aux+"Usuario "+(i+1)+": "+llista[i].showIntercamb()+"\n";
-            }
-        }else aux="El nombre de usuario no ha sido encontado. Por favor, intentelo de nuevo";
-        return aux;
-    }
-
     /**Buscamos la posición en la que se encuentra el usuario en llista[]
      *
      * @param alias para saber qué usuario tenemos que buscar
@@ -173,42 +81,91 @@ public class LlistaUser{
         return pos;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**Añadimos un intercambio a un usuario
+     *
+     * @param alias para saber qué usuario tenemos que modificar
+     * @param inter intercambio que se quiere añadir
+     * @return correcto true si se ha podido añadir, false si no
+     */
+    public boolean nuevoIntercambio(String alias, Peticiones inter) {//TODO: esta funcion no existe ya en User????->Áitor
+        boolean correcto=false;
+        int pos;
+        if(this.usuarioRegistrado(alias)) {
+            pos= this.posUsuario(alias);
+            llista[pos].newIntercamb(inter);
+            correcto=true;
+        }
+        return correcto;
+    }
+
     public boolean productoUsuarioRegistrado(String objeto){
         boolean trobat=false;
         for(int i=0;i<nElem;i++) {
-            if(llista[i].prodTrobat(objeto)>-1) trobat=true;
+            if(llista[i].prodTrobatInt(objeto)>-1) trobat=true;
         }
         return(trobat);
     }
-    public void nouBe(String alias, String nom, String code, String descripcion, Data data1, double alto, double largo, double ancho, double peso){
-        llista[this.posUsuario(alias)].newBien(nom, code, descripcion, ancho, alto, largo, peso, data1);
-    }
-    public void nouServei(String alias, String nom, String code, String descripcion, Data data1, Data data2){
-        llista[this.posUsuario(alias)].newServei(nom, code, descripcion, data1, data2);
-    }
-
-    public boolean compProd(String alias, String p){
-        return(llista[this.posUsuario(alias)].prodTrobatDos(p));
-    }
-
-    public void quitaBien(String alias, String codigo){
-        llista[this.posUsuario(alias)].menosBien(codigo);
-    }
-    public void desactServicio(String alias, String codigo, Data data2){
-        llista[this.posUsuario(alias)].inactivaServicio(codigo, data2);
-    }
-
-    /**Buscamos la posición en la que se encuentra el usuario en llista[]
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Esta función añade un nuevo producto: bien al usuario indicado
      *
-     * @return aux información de los usuarios que hay en llista[]
+     * @param nom nombre del producto
+     * @param code código del producto
+     * @param descripcion del producto
+     * @param peso del bien y sus dimensiones (alto, largo, ancho)
+     * @param data1 fecha en la que se publica el producto
      */
-    public String toString() {
-        String aux = "Lista de usuarios\n";
-        for(int i=0;i<nElem;i++) {
-            aux=aux+"Usuario "+(i+1)+": "+llista[i].toString()+"\n";
-        }
-        return aux;
+    public void nouBe(String alias, String nom, String code, String descripcion, Data data1, double alto, double largo, double ancho, double peso){
+        Bienes b = new Bienes(nom, code, descripcion, data1, "bien", ancho, alto, largo, peso);
+        llista[this.posUsuario(alias)].getLlistaProd().afegirProducte(b);
     }
+
+    /**
+     * Esta función añade un nuevo producto: servicio al usuario indicado
+     *
+     * @param nom nombre del producto
+     * @param code código del producto
+     * @param descripcion del producto
+     * @param data1 fecha en la que se publica el producto
+     * @param data2 fecha hasta la que estará disponible el producto
+     */
+    public void nouServei(String alias, String nom, String code, String descripcion, Data data1, Data data2){
+        Serveis s = new Serveis(nom, code, descripcion, data1, data2, "servicio");
+        llista[this.posUsuario(alias)].getLlistaProd().afegirProducte(s);
+    }
+
+    public boolean compProd(String alias, String code){
+        return(llista[this.posUsuario(alias)].prodTrobatBool(code));//TODO: quitar la función de User
+    }
+
+    /**Quitamos el bien que el usuario indica, teniendo en cuanta que no haya sido anteriormente intercambiado
+     *
+     * @param alias nombre del usuario
+     * @param codigo del srevicio a desactivar
+     */
+    public void quitaBien(String alias, String codigo){
+        llista[this.posUsuario(alias)].getLlistaProd().eliminaProducto(codigo);
+    }
+
+    /**Desactivamos el servicio de un usuario (aquel que ha introducido por consola)
+     *
+     * @param alias nombre del usuario
+     * @param codigo del srevicio a desactivar
+     * @param data2 fecha del día en que se desactiva el servicio
+     */
+    public void desactServicio(String alias, String codigo, Data data2){
+        llista[this.posUsuario(alias)].getLlistaProd().desactivaServicio(codigo, data2);
+    }
+
+    /**Printamos los productos del usuario indicado
+     *
+     * @param alias nombre del usuario
+     */
+    public String prodActToString(String alias) {
+        return llista[this.posUsuario(alias)].getLlistaProd().ProductesString();
+    }
+
 
     //SETTERS Y GETTERS
 

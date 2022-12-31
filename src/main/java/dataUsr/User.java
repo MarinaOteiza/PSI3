@@ -47,64 +47,57 @@ public class User implements Serializable {
 
         return aux;
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void newBien(String nom, String code, String descripcion, double ancho, double alto, double largo, double peso, Data data1) {
-        Bienes b = new Bienes(nom, code, descripcion, data1, "bien", ancho, alto, largo, peso);
-        llistaProd.afegirProducte(b);
-    }
-
-    public void newServei(String nom, String code, String descripcion, Data data1, Data data2) {
-        Serveis s = new Serveis(nom, code, descripcion, data1, data2, "servicio");
-        llistaProd.afegirProducte(s);
-    }
 
     /**
-     * Esta función añade un nuevo intercambio al usuario indicado
+     * Añade un nuevo intercambio al usuario indicado
      *
      * @param i intercambio que se quiere añadir
      */
-    public void newIntercamb(Peticiones i) {
+    public void newIntercamb(Peticiones i) { //TODO: esto sigue siendo así??????
         this.intercamb.addP(i);
     }
 
     /** Esta función busca el producto indicado y devuelve el valor de la posición de la lista
      * en la que se encuentra
      *
-     * producto que se quiere buscar
-     * @return pos=-1 si no se ha encontrado el producto p o pos=posición
-     * en la que se encuentra el producto en this.prod[]
+     * @param code código del producto que se quiere buscar
+     * @return pos=-1 si no se ha encontrado el producto o pos=posición (i)
+     * en la que se encuentra el producto en llistaProd[]
      */
-    public int prodTrobat(String code) {
+    public int prodTrobatInt(String code) {
         //TODO:llamar a función que se encuentre en la classe productos
+        //TODO: necesito un getter del codigo en productes o una funcion que busque un producto
         int pos = -1;
-        for (int i = 0; i < prod.length; i++) {
-            if (prod[i].equals(code)) pos = i;
+        for (int i = 0; i < llistaProd.getnumProd()-1; i++) {
+            //if (llistaProd[i].getCode().equals(code)){
+            // pos=i;
+            //break;
+            //}
         }
-
         return pos;
     }
 
-    public boolean prodTrobatDos(String code) {
-        int i = 0;
+    /**
+     * Busca el producto que tiene el código indicado y devuelve un booleano si lo encuentra o no
+     *
+     * @param code código del producto que se quiere buscar
+     * @return trobat si se ha encontrado el código del producto en la lista de productos del usuario
+     */
+    public boolean prodTrobatBool(String code) { //TODO: esta función se queda aquí
         boolean trobat = false;
-        while (i < prod.length) {
-            if (prod[i].equals(code)) {
-                trobat = true;
-                break;
-            }
+        for (int i = 0; i < llistaProd.getnumProd()-1; i++) {
+            //if (llistaProd[i].getCode().equals(code)){
+                // trobat=true;
+                //break;
+            //}
         }
+
         return trobat;
     }
 
-    public void menosBien(String codigo) {
-        llistaProd.eliminaProducto(codigo);
-    }
-
-    public void inactivaServicio(String codigo, Data data2) {
-        llistaProd.desactivaServicio(codigo, data2);
-    }
-
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
      * Esta función busca el intercambio indicado y devuelve el valor de la posición de la lista
      * en la que se encuentra
@@ -194,8 +187,8 @@ public class User implements Serializable {
         this.correo = correo;
     }
 
-    public Productes[] getProd() {
-        return prod;
+    public LlistaProductes getLlistaProd() {
+        return llistaProd;
     }
 
     public void setProd(Productes[] prod) {
