@@ -93,7 +93,8 @@ public class LlistaUser{
         int pos;
         if(this.usuarioRegistrado(alias)) {
             pos= this.posUsuario(alias);
-            llista[pos].newIntercamb(inter);
+            llista[pos].getIntercamb().addP(inter);
+            llista[pos].masIntercamb();
             correcto=true;
         }
         return correcto;
@@ -118,7 +119,9 @@ public class LlistaUser{
      */
     public void nouBe(String alias, String nom, String code, String descripcion, Data data1, double alto, double largo, double ancho, double peso){
         Bienes b = new Bienes(nom, code, descripcion, data1, "bien", ancho, alto, largo, peso);
-        llista[this.posUsuario(alias)].getLlistaProd().afegirProducte(b);
+        int pos=this.posUsuario(alias);
+        llista[pos].getLlistaProd().afegirProducte(b);
+        llista[pos].masProd();
     }
 
     /**
@@ -132,11 +135,13 @@ public class LlistaUser{
      */
     public void nouServei(String alias, String nom, String code, String descripcion, Data data1, Data data2){
         Serveis s = new Serveis(nom, code, descripcion, data1, data2, "servicio");
-        llista[this.posUsuario(alias)].getLlistaProd().afegirProducte(s);
+        int pos=this.posUsuario(alias);
+        llista[pos].getLlistaProd().afegirProducte(s);
+        llista[pos].masProd();
     }
 
     public boolean compProd(String alias, String code){
-        return(llista[this.posUsuario(alias)].prodTrobatBool(code));//TODO: quitar la función de User
+        return(llista[this.posUsuario(alias)].prodTrobatBool(code));//TODO: esperar a getter
     }
 
     /**Quitamos el bien que el usuario indica, teniendo en cuanta que no haya sido anteriormente intercambiado
@@ -145,7 +150,9 @@ public class LlistaUser{
      * @param codigo del srevicio a desactivar
      */
     public void quitaBien(String alias, String codigo){
-        llista[this.posUsuario(alias)].getLlistaProd().eliminaProducto(codigo);
+        int pos=this.posUsuario(alias);
+        llista[pos].getLlistaProd().eliminaProducto(codigo);
+        llista[pos].menosProd();
     }
 
     /**Desactivamos el servicio de un usuario (aquel que ha introducido por consola)

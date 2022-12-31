@@ -49,16 +49,6 @@ public class User implements Serializable {
     }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-    /**
-     * Añade un nuevo intercambio al usuario indicado
-     *
-     * @param i intercambio que se quiere añadir
-     */
-    public void newIntercamb(Peticiones i) { //TODO: esto sigue siendo así??????
-        this.intercamb.addP(i);
-    }
-
     /** Esta función busca el producto indicado y devuelve el valor de la posición de la lista
      * en la que se encuentra
      *
@@ -98,6 +88,16 @@ public class User implements Serializable {
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void masProd(){
+        nProd++;
+    }
+    public void menosProd(){
+        nProd--;
+    }
+    public void masIntercamb(){
+        nInter++;
+    }
     /**
      * Esta función busca el intercambio indicado y devuelve el valor de la posición de la lista
      * en la que se encuentra
@@ -106,7 +106,7 @@ public class User implements Serializable {
      * @return pos pos=-1 si no se ha encontrado el intercambio i o pos=posición
      * en la que se encuentra el intercambio en this.intercamb[]
      */
-    public int intercambTrobat(Peticiones inter) {
+    public int intercambTrobat(Peticiones inter) {//TODO: no se le llama a esta función en ningún momento
         return intercamb.trobatPeticion(inter);
     }
 
@@ -190,9 +190,12 @@ public class User implements Serializable {
     public LlistaProductes getLlistaProd() {
         return llistaProd;
     }
+    public LlistaPeticiones getIntercamb() {
+        return intercamb;
+    }
 
-    public void setProd(Productes[] prod) {
-        this.prod = prod;
+    public void setLlistaProd(LlistaProductes prod) {
+        this.llistaProd = prod;
     }
 
     public int getCodiPost() {

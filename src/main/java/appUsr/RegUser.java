@@ -368,7 +368,7 @@ public class RegUser {
                     + "a intentarlo\n");
         } while (!llista.productoUsuarioRegistrado(a));
         User[] llista2 = llista.getLlista();
-        t = llista2[pos].getTipusProducte(a);
+        //t = llista2[pos].getTipusProducte(a);//TODO:(Marina): lo comento pq la funcion no esta bn y tiene que ir en LlistaUser
         //Productes product = new Productes(a, t);
         //TODO: ARREGLAR PRODUCT!!!!!
         return product;
