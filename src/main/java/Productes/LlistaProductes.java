@@ -158,5 +158,20 @@ public class LlistaProductes  {
      * torna productes de la llista en la posicio i
      */
 
+    /**Retornamos el tipo de producto que es
+     *
+     * @param code
+     * @return codigo del producto uqe se busca
+     */
+    public String getTipusList(String code){ //TODO:creada por Marina
+        int pos=-1;
+        for(int i=0; i<this.nElem-1;i++){
+            if (llista1[i].getCode().equals(code)){
+                pos=i;
+                break;
+            }
+        }
+        return (llista1[pos].getTipus_product());
+    }
 
 }

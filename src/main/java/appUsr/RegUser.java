@@ -366,12 +366,9 @@ public class RegUser {
             a = teclat.nextLine();
             if (!llista.productoUsuarioRegistrado(a)) System.out.println("Producto no encontrado, vuelve "
                     + "a intentarlo\n");
-        } while (!llista.productoUsuarioRegistrado(a));
-        User[] llista2 = llista.getLlista();
-        //t = llista2[pos].getTipusProducte(a);//TODO:(Marina): lo comento pq la funcion no esta bn y tiene que ir en LlistaUser
-        //Productes product = new Productes(a, t);
-        //TODO: ARREGLAR PRODUCT!!!!!
-        return product;
+        } while (!llista.compProd(usuario, a));
+
+        return llista.getLlistaProd(pos);
     }
 
     private static String pedirObjeto(){

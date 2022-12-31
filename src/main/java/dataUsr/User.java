@@ -47,7 +47,6 @@ public class User implements Serializable {
 
         return aux;
     }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /** Esta función busca el producto indicado y devuelve el valor de la posición de la lista
      * en la que se encuentra
@@ -61,10 +60,10 @@ public class User implements Serializable {
         //TODO: necesito un getter del codigo en productes o una funcion que busque un producto
         int pos = -1;
         for (int i = 0; i < llistaProd.getnumProd()-1; i++) {
-            //if (llistaProd[i].getCode().equals(code)){
-            // pos=i;
-            //break;
-            //}
+            if (llistaProd.getList(i).getCode().equals(code)){
+                pos=i;
+                break;
+            }
         }
         return pos;
     }
@@ -78,12 +77,11 @@ public class User implements Serializable {
     public boolean prodTrobatBool(String code) { //TODO: esta función se queda aquí
         boolean trobat = false;
         for (int i = 0; i < llistaProd.getnumProd()-1; i++) {
-            //if (llistaProd[i].getCode().equals(code)){
-                // trobat=true;
-                //break;
-            //}
+            if (llistaProd.getList(i).getCode().equals(code)){
+                trobat=true;
+                break;
+            }
         }
-
         return trobat;
     }
 
@@ -221,17 +219,7 @@ public class User implements Serializable {
     public void setnInter(int nInter) {
         this.nInter = nInter;
     }
-
-    public String getTipusProducte(String producte) {
-        int i=0,j=0;
-        while (i==0 && j<nProd){
-            if(prod[j].getDescrip().equals(producte)) {
-                i = j; j++;
-            }else j++;
-        }
-        return prod[i].getTipus_product();
-    }
-    public LlistaPeticiones getIntercamb() {
-        return intercamb;
+    public Productes getProd(int i){
+        return (llistaProd.getList(i));
     }
 }

@@ -52,6 +52,10 @@ public class LlistaPeticiones {
         return LlistaP[i];
     }
 
+    public void setLlistaPos(int i, Peticiones p){
+         LlistaP[i]=p.copia();
+    }
+
     public Peticiones[] getLlistaPeticions(){
         return LlistaP;
     }

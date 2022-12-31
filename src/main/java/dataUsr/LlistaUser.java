@@ -88,7 +88,7 @@ public class LlistaUser{
      * @param inter intercambio que se quiere añadir
      * @return correcto true si se ha podido añadir, false si no
      */
-    public boolean nuevoIntercambio(String alias, Peticiones inter) {//TODO: esta funcion no existe ya en User????->Áitor
+    public boolean nuevoIntercambio(String alias, Peticiones inter) {//TODO: esta funcion sigue teniendo que ser así????
         boolean correcto=false;
         int pos;
         if(this.usuarioRegistrado(alias)) {
@@ -98,14 +98,6 @@ public class LlistaUser{
             correcto=true;
         }
         return correcto;
-    }
-
-    public boolean productoUsuarioRegistrado(String objeto){
-        boolean trobat=false;
-        for(int i=0;i<nElem;i++) {
-            if(llista[i].prodTrobatInt(objeto)>-1) trobat=true;
-        }
-        return(trobat);
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
@@ -173,6 +165,12 @@ public class LlistaUser{
         return llista[this.posUsuario(alias)].getLlistaProd().ProductesString();
     }
 
+    public String getTipusProducte(String alias, String code) {//
+        int i = 0, j = 0;
+        int pos=this.posUsuario(alias);
+        return (llista[pos].getLlistaProd().getTipusList(code));
+    }
+
 
     //SETTERS Y GETTERS
 
@@ -215,5 +213,9 @@ public class LlistaUser{
     }
 
     public Codigo getCodigo(){return codi;}
+
+    public Productes getLlistaProd(int i){
+        return (llista[i].getProd(i));
+    }
 
 }
