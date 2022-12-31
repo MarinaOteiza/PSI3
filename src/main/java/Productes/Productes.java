@@ -6,9 +6,10 @@ public abstract class Productes {
     private Data dataInt; //fecha del intercambio
     private String descrip;   //descripcion del producto
 
-    private int code;        //codigo del producto
+    private String code;        //codigo del producto
     private boolean estat;
     private int intercanvis;
+    private String nom;
 
     private boolean productTienePeticion;
 
@@ -16,9 +17,9 @@ public abstract class Productes {
 
     public Productes(int code, String descrip, Data dataOf, Data dataInt, boolean estat, int intercanvis) {
         this.code = code;
+        this.nom= nom;
         this.descrip = descrip;
         this.dataOf = dataOf;
-        this.dataInt = dataInt;
         this.estat = true;              //el producto esta disponible
         this.intercanvis = 0;          //no se ha hecho ningun intercambio
         this.productTienePeticion=false;
@@ -85,16 +86,23 @@ public abstract class Productes {
     }
 
     /**
+     * añade intercambio
+     *
+     */
+    public void AfegeixIntercanvi() {
+        intercanvis++;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+    /**
      * getter que obte el codigo de un producto
      *
      * @return code
      */
-    public int getCode() {
+    public String getCode() {
         return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
     }
 
     /**
@@ -122,6 +130,9 @@ public abstract class Productes {
 
     public boolean isProductTienePeticion() {return productTienePeticion;}
 
+    public String getNom() {
+        return nom;
+    }
 }
 
 

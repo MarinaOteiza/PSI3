@@ -4,24 +4,23 @@ public class Bienes extends Productes{
     private Data dataOf;
     private Data dataInt;
     private String descrip;
-    private int code;
+    private String code;
     private double ancho;
     private double alto;
     private double largo;
     private double peso;
     private int intercanvis;
     private boolean estat;
+    private String nom;
 
-    public Bienes (int code,String descrip,Data dataOf, Data dataInt, boolean estat, int intercanvis, double ancho, double alto,double largo,double peso){
-        super(code,descrip, dataOf, dataInt,estat,intercanvis);
+    public Bienes (String nom,String code,String descrip,Data dataOf, String tipus,double ancho, double alto,double largo,double peso){
+        super(nom,code,descrip,dataOf,tipus);
         this.alto=alto;
+        this.dataInt=dataInt;
         this.ancho=ancho;
         this.largo=largo;
         this.peso=peso;
-    }
-    public Bienes(int code, String descrip, boolean estat, Data dataOf, Data dataInt, int intercanvis){
-        super(code,descrip, dataOf,dataInt, estat, intercanvis);
-
+        dataInt=new Data();
     }
     public boolean getEstat(){
         return estat;
@@ -60,12 +59,12 @@ public class Bienes extends Productes{
 
     public void desactivaProducte() { estat=false;}
     /**
-     * Método que hace la copia del biem
+     * Método que hace la copia del bien
      *
-     * @return duplicado de la instancia del biem
+     * @return duplicado de la instancia del bien
      */
     public Productes copia() {
-        return new Bienes(code,descrip,dataOf,dataInt,estat,intercanvis,ancho,alto,largo,peso);
+        return new Bienes(nom,code,descrip,dataOf,"Bien",ancho,alto,largo,peso);
     }
     /**
      * Método que muestra un bien
