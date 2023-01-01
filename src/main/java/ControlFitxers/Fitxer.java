@@ -1,8 +1,8 @@
 package ControlFitxers;
 
-import ControlFitxers.Data;
 import Productes.Bienes;
 import Productes.LlistaProductes;
+import Productes.Productes;
 import Productes.Serveis;
 
 import java.io.BufferedWriter;
@@ -13,9 +13,6 @@ import java.util.Locale;
 import java.util.Scanner;
 
 public class Fitxer {
-    public Fitxer() {
-
-    }
 
     public LlistaProductes LeerBienes(String NomFitxer) throws IOException {
         int MaxLin = 500000;
@@ -23,10 +20,9 @@ public class Fitxer {
         Scanner lectura = new Scanner(new File(NomFitxer));
         Scanner part;
         // dividir información del fichero//
-        int codi, intercanvis, dat1, dat2;
-        String descripcio, frase;
-        Data off, Inter;
-        boolean estat;
+        int   dat1;
+        String descripcio, frase, nom,codi;
+        Data off;
         double ancho, alto, largo, peso;
 
         while (lectura.hasNext()) {
@@ -34,21 +30,16 @@ public class Fitxer {
             part = new Scanner(frase);
             part.useDelimiter(";");
             part.useLocale(Locale.ENGLISH);
-            codi = part.nextInt();
+            nom= part.next();
+            codi = part.next();
             descripcio = part.next();
-            estat = part.nextBoolean();
-            intercanvis = part.nextInt();
             ancho = part.nextDouble();
             alto = part.nextDouble();
             largo = part.nextDouble();
             peso = part.nextDouble();
             dat1 = part.nextInt();
-            dat2 = part.nextInt();
             off = new Data(dat1);
-            if (dat2 != 0) {
-                Inter = new Data(dat2);
-            } else Inter = new Data();
-            Bienes benou = new Bienes(codi, descripcio, off, Inter, estat, intercanvis, ancho, alto, largo, peso);
+            Bienes benou = new Bienes(nom, codi, descripcio, off,  ancho, alto, largo, peso);
             nova.afegirProducte(benou);
             lectura.hasNext();
 
@@ -64,24 +55,44 @@ public class Fitxer {
      * @return Nova: LLista de Productes amb la informació
      */
 
-    public void ModificaFitxer(LlistaProductes n1, String NomFitxer) throws IOException {
+      public LlistaProductes LeerProd(String NomFitxer) throws IOException {
+          int MaxLin = 500000;
+          LlistaProductes nova = new LlistaProductes(MaxLin);
+          Scanner lectura = new Scanner(new File(NomFitxer));
+          Scanner part;
+          String code, descrip, frase;
+          Data dataoff;
+          int dt1;
+            while (lectura.hasNext()) {
+                frase = lectura.nextLine();
+                part = new Scanner(frase);
+                part.useDelimiter(";");
+                part.useLocale(Locale.ENGLISH);
+                code = part.next();
+                descrip = part.next();
+                dt1 = part.nextInt();
+                dataoff = new Data(dt1);
+                Bienes prod= new Bienes(code,descrip,dataoff)     ;
+                nova.afegirProducte(prod);
+                lectura.hasNext();
+            }
+            lectura.close();
+            return nova;
+            }
+
+
+      public void ModificaFitxerProd(LlistaProductes n1, String NomFitxer) throws IOException {
 
         try (BufferedWriter escriptura = new BufferedWriter(new FileWriter(NomFitxer))) {
-            int codi, intercanvis, dat1, dat2;
-            String descripcio, frase;
-            Data off, Inter;
-            boolean estat;
-            double ancho, alto, largo, peso;
+            int  intercanvis, dat1, dat2;
+            String descripcio, frase, codi,nom, tipus;
+            String off;
             int i;
             for ( i=0; i<n1.getnumProd(); i++) {
-
                 codi=n1.getList(i).getCode();
                 descripcio=n1.getList(i).getDescrip();
-                intercanvis=n1.getList(i).getIntercanvis();
-                estat=n1.getList(i).isEstat();
-                off=n1.getList(i).getDataOf();
-                Inter=n1.getList(i).getDataInt();
-                frase=(codi+";"+descripcio+";"+estat+ ";" +off+";"+Inter+";"+intercanvis+";");
+                off=n1.getList(i).getofString();
+                frase=(codi+";"+descripcio+";" +off+";");
                 escriptura.write(frase);
                 escriptura.newLine();
             }

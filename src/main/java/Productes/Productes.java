@@ -5,7 +5,6 @@ public abstract class Productes {
     private Data dataOf; //fecha de la oferta
     private Data dataInt; //fecha del intercambio
     private String descrip;   //descripcion del producto
-
     private String code;        //codigo del producto
     private boolean estat;
     private int intercanvis;
@@ -15,8 +14,8 @@ public abstract class Productes {
 
     private String tipus_product;
 
-    public Productes(int code, String descrip, Data dataOf, Data dataInt, boolean estat, int intercanvis) {
-        this.code = code;
+    public Productes(String code, String descrip, Data dataOf) {
+        this.code=code;
         this.nom= nom;
         this.descrip = descrip;
         this.dataOf = dataOf;
@@ -32,6 +31,9 @@ public abstract class Productes {
      */
     public Data getDataInt() {
         return dataInt;
+    }
+    public String getDataString() {
+        return dataInt.toString();
     }
 
     public void setDataInt(Data dataInt) {
@@ -58,6 +60,9 @@ public abstract class Productes {
      */
     public Data getDataOf() {
         return dataOf;
+    }
+    public String getofString() {
+        return dataOf.toString();
     }
 
     public void setDataOf(Data dataOf) {

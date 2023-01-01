@@ -1,6 +1,8 @@
 package appUsr;
 
 import dataUsr.*;
+
+import java.io.IOException;
 import java.util.Scanner;
 import Peticiones.*;
 import Productes.*;
@@ -383,4 +385,46 @@ public class RegUser {
         System.out.println(llista.prodActToString(alias));
 
     }
+
+    private static LlistaProductes FitxerServeis() throws IOException {
+        int Max = 500000;
+        Fitxer f = new Fitxer();
+        LlistaProductes p = new LlistaProductes(Max);
+        p = f.LeerServicios("serveis.txt");
+        return p;
+    }
+    private static LlistaProductes FitxerBens() throws IOException{
+        int Max = 500000;
+        Fitxer f = new Fitxer();
+        LlistaProductes p = new LlistaProductes(Max);
+        p = f.LeerBienes("bens.txt");
+        return p;
+    }
+    private static LlistaProductes FitxerProductes() throws IOException{
+        int Max = 500000;
+        Fitxer f = new Fitxer();
+        LlistaProductes p = new LlistaProductes(Max);
+        p = f.LeerProd("productes.txt");
+        return p;
+    }
+    private static void AfegirProductes(LlistaProductes n) throws IOException{
+        int Max = 500000;
+        Fitxer f = new Fitxer();
+        f.ModificaFitxerProd(n, "productes.txt");
+    }
+
+    private static void LeerBinario() throws ClassNotFoundException {
+        TestBinari test = new TestBinari();
+        test.leerBinario("usuari.bin");
+    }
+    private static void EscribirUsuario(User u) throws IOException {
+        TestBinari test = new TestBinari();
+        test.escribirBinario("usuari.bin", u);
+    }
+    private static void AñadirUsuario(User u) throws IOException {
+        TestBinari test = new TestBinari();
+        test.AddBinario("usuari.bin", u);
+    }
+
+
 }

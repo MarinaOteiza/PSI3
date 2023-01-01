@@ -63,7 +63,7 @@ public class TestBinari {
     @param u1: usuario
      */
 
-    /* note: escribirBinario ha de ir antes de AddBinario, ha de existir texto para añadirlo*/
+    /* nota: escribirBinario ha de ir antes de AddBinario, ha de existir texto para añadirlo*/
 
     public void leerBinario(String NomFitxer) throws ClassNotFoundException {
         User u = new User(null, null, 0);

@@ -13,14 +13,15 @@ public class Bienes extends Productes{
     private boolean estat;
     private String nom;
 
-    public Bienes (String nom,String code,String descrip,Data dataOf, String tipus,double ancho, double alto,double largo,double peso){
-        super(nom,code,descrip,dataOf,tipus);
+    public Bienes (String nom,String code,String descrip,Data dataOf, double ancho, double alto,double largo,double peso){
+        super(code,descrip,dataOf);
         this.alto=alto;
-        this.dataInt=dataInt;
         this.ancho=ancho;
         this.largo=largo;
         this.peso=peso;
-        dataInt=new Data();
+    }
+    public Bienes (String code,String descrip,Data dataOf){
+        super(code,descrip,dataOf);
     }
     public boolean getEstat(){
         return estat;
@@ -64,7 +65,7 @@ public class Bienes extends Productes{
      * @return duplicado de la instancia del bien
      */
     public Productes copia() {
-        return new Bienes(nom,code,descrip,dataOf,"Bien",ancho,alto,largo,peso);
+        return new Bienes(nom,code,descrip,dataOf,ancho,alto,largo,peso);
     }
     /**
      * Método que muestra un bien
@@ -75,14 +76,6 @@ public class Bienes extends Productes{
     public String toString() {
         return "Servei [dataOf="+dataOf+",dataInt="+dataInt+ ", codi=" + code+ ", activacio=" +estat+ ", intercanvis=" +intercanvis;
     }
-
-    public void afegirDataIntercanvi(Data inter) {
-      dataInt=inter.copia();
-
-    }
-    /** @SoniaAlfonso
-     * Procediment per a afegir data de Intercanvi;
-     */
 
 
 
