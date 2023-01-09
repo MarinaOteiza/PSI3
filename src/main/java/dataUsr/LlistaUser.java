@@ -193,8 +193,8 @@ public class LlistaUser{
         }
         return null;
     }
-    public User[] getLlista() {
-        return llista;
+    public User getLlista(int i) {
+        return llista[i];
     }
 
 

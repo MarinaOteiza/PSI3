@@ -4,6 +4,8 @@ import Productes.Bienes;
 import Productes.LlistaProductes;
 import Productes.Productes;
 import Productes.Serveis;
+import dataUsr.LlistaUser;
+import dataUsr.User;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -147,4 +149,46 @@ public LlistaProductes LeerServicios(String NomFitxer) throws IOException {
  * @return Nova: LLista de Productes amb la informació
  */
 
+public LlistaUser LeerUsuariotexto(String NomFitxer) throws IOException {
+    int MaxLin = 500000;
+    LlistaUser nova = new LlistaUser(MaxLin);
+    Scanner lectura = new Scanner(new File(NomFitxer));
+    Scanner part;
+    // dividir información del fichero//
+    int codiP;
+    String Alias, correo, frase;
+
+    while (lectura.hasNext()) {
+        frase = lectura.nextLine();
+        part = new Scanner(frase);
+        part.useDelimiter(";");
+        part.useLocale(Locale.ENGLISH);
+        codiP = part.nextInt();
+        Alias = part.next();
+        correo= part.next();
+        User usi = new User(Alias, correo, codiP);
+        nova.nuevoUsr(usi);
+        lectura.hasNext();
+    }
+    lectura.close();
+    return nova;
+}
+
+    public void ModificaUsers(LlistaUser n1, String NomFitxer) throws IOException {
+
+        try (BufferedWriter escriptura = new BufferedWriter(new FileWriter(NomFitxer))) {
+            int  codeP;
+            String alias, correo, frase;
+            int i;
+            for ( i=0; i<n1.getnElem(); i++) {
+                codeP=n1.getLlista(i).getCodiPost();
+                alias=n1.getLlista(i).getAlias();
+                correo=n1.getLlista(i).getCorreo();
+                frase=(alias+";"+correo+";" +codeP+";");
+                escriptura.write(frase);
+                escriptura.newLine();
+            }
+            escriptura.close();
+        }
+    }
 }
