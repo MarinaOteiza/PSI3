@@ -7,11 +7,14 @@ public class Serveis extends Productes{
     private boolean estat;
     private int intercanvis;
     private Data dataDes;
-    private int code;
+    private String code;
+    private String nom;
+    private String tipus;
 
-    public Serveis(int code, String descrip, Data dataOf, Data dataInt, boolean estat, int intercanvis, Data dataDes){
-        super(code,descrip, dataOf, dataInt,estat,intercanvis);
+    public Serveis(String nom,String code, String descrip, Data dataOf, Data DataDes,String tipus){
+        super(nom,code,descrip,dataOf);
         this.dataDes=null; //creamos una fecha de descativacion
+        this.tipus="productes";
     }
 
     public Data getDataDes() {
@@ -33,7 +36,7 @@ public class Serveis extends Productes{
      * @return duplicado de la instancia del servicio
      */
     public Productes copia() {
-        return new Serveis(code,descrip,dataOf,dataInt,estat,intercanvis,dataDes);
+        return new Serveis(nom,code,descrip,dataOf,dataDes,"Servicio");
     }
     /**
      * Método que muestra Serevi
@@ -41,6 +44,6 @@ public class Serveis extends Productes{
      * @return String con toda la información
      */
     public String toString() {
-        return "Servei [dataOf="+dataOf+",dataInt="+dataInt+",dataFi=" + dataDes + ", codi=" + code+ ", activacio=" +estat+ ", intercanvis=" +intercanvis;
+        return "Servei [dataOf="+dataOf+",dataFi=" + dataDes + ", codi=" + code+ ", activacio=" +estat+ ", intercanvis=" +intercanvis;
     }
 }
