@@ -88,7 +88,7 @@ public class LlistaUser{
      * @param inter intercambio que se quiere añadir
      * @return correcto true si se ha podido añadir, false si no
      */
-    public boolean nuevoIntercambio(String alias, Peticiones inter) {//TODO: esta funcion sigue teniendo que ser así????
+    public boolean nuevoIntercambio(String alias, Peticiones inter) {
         boolean correcto=false;
         int pos;
         if(this.usuarioRegistrado(alias)) {
